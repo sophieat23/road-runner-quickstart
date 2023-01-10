@@ -1,5 +1,6 @@
 //package org.firstinspires.ftc.teamcode.thunderstone.teleop;
 //
+//import com.google.blocks.ftcrobotcontroller.runtime.DcMotorAccess;
 //import com.qualcomm.robotcore.hardware.CRServo;
 //import com.qualcomm.robotcore.hardware.DcMotorEx;
 //import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,7 +14,7 @@
 //        this.hwMap = hwMap;
 //
 //        //lift
-//        lift = hardwareMap.get(DcMotorEx.class, "DR4B");
+//        DcMotorEx lift = hardwareMap.get(DcMotorEx.class, "DR4B");
 //
 //        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

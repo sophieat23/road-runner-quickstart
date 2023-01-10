@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.thunderstone.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-
+@Disabled
 public class Drive {
     private DcMotor frontRight;
     private DcMotor frontLeft;
