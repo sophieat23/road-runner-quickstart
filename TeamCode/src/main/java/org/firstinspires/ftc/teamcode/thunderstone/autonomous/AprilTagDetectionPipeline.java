@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.thunderstone.autonomous;
 /*
  * Copyright (c) 2021 OpenFTC Team
  *
