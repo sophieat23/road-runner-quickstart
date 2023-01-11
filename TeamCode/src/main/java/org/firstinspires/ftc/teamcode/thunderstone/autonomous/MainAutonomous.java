@@ -152,7 +152,6 @@ public class MainAutonomous extends LinearOpMode {
                     telemetry.addData("Blue side left confirmed.", " ");
                     telemetry.update();
                     config = false;
-                    //scan barcode, score, park in warehouse and move forward to make room
                     break;
 
                 case 5: //blue side right
@@ -165,10 +164,6 @@ public class MainAutonomous extends LinearOpMode {
                     telemetry.addData("Red side left confirmed.", " ");
                     telemetry.update();
                     config = false;
-                    //spin ducks, scan barcode, score, park in storage unit
-                    //scan barcode, score, spin ducks, park in storage unit
-                    //spin ducks, scan barcode, score, park in warehouse
-                    //scan barcode, score, spin ducks, park in warehouse
                     break;
 
                 case 7: //red side right

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 @TeleOp(name = "6010 PowerPlay TeleOp", group = "6010 TeleOps")
 public class TSMainOpMode extends LinearOpMode {
-    private double slow = .5;
+    private double slow = 1; //when slow = 1 there is no slow
     private double slowR = 1; //slow for rotating
     private double y = 0;
     private double equationY = 0;
@@ -65,7 +65,7 @@ public class TSMainOpMode extends LinearOpMode {
         lift.setTargetPosition(currentH);
 
         boolean wasHigh;
-        boolean wasMed;
+        boolean wasLow;
 
         //wheels
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
@@ -111,16 +111,14 @@ public class TSMainOpMode extends LinearOpMode {
                 FRMotor = 0;
                 DR4BMotor = 0;
 
-
-
                 //slow:
-                if(gamepad1.y){
-                    slow = .25;
-                    slowR = .5;
-                } else {
-                    slow = .5;
-                    slowR = 1;
-                }
+//                if(gamepad1.y){ //has this even been working?
+//                    slow = .25;
+//                    slowR = .5;
+//                } else {
+//                    slow = .5;
+//                    slowR = 1;
+//                }
 
                 /*
                 gamepad input
@@ -226,6 +224,7 @@ public class TSMainOpMode extends LinearOpMode {
 
                 //strafing w/ left/right
                 strafePow = .7;
+                //add imu to make strafing exact
                 if (gamepad1.dpad_right) {
                     FLMotor = strafePow ;//*slow
                     BLMotor = -strafePow ;
@@ -252,7 +251,7 @@ public class TSMainOpMode extends LinearOpMode {
 
                 //checking height
                 wasHigh = lift.getCurrentPosition() >= 700;
-                wasMed = lift.getCurrentPosition() >= 400;
+                wasLow = lift.getCurrentPosition() >= 400;
 
                 //lift:
                 if(gamepad1.left_trigger>0 && currentH<1000) { //up (and h<1000 is the max height)
@@ -270,13 +269,7 @@ public class TSMainOpMode extends LinearOpMode {
 
 
                 } else if(gamepad1.right_trigger>.01 && lift.getCurrentPosition() >30){//down
-                    // lift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-                    // DR4BMotor = - gamepad1.right_trigger*700;
-
-                    // lift.setVelocity(DR4BMotor);
-
-
-                    lift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                     lift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); //does this change anything?
                     currentH= lift.getCurrentPosition();
 
                     if(currentH > 300){
@@ -292,8 +285,7 @@ public class TSMainOpMode extends LinearOpMode {
                         lift.setPower(-.0001);//gravity doesnt do as much work here so power needs to be set to negative
                     }
 
-
-                } else if (gamepad1.x) { //high preset
+                } else if (gamepad1.x) { //high junction preset
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
                     currentH = 900;
                     lift.setTargetPosition(currentH);
@@ -301,7 +293,13 @@ public class TSMainOpMode extends LinearOpMode {
 
                     telemetry.addData("lift velocity", lift.getVelocity());
 
-                } else if (gamepad1.b){ //middle preset
+                } else if (gamepad1.y) { //mid junction preset
+                    currentH = 700; //might need to change this, temp val
+                    lift.setTargetPosition(currentH);
+                    lift.setPower(.5);
+
+                    telemetry.addData("lift velocity", lift.getVelocity());
+                } else if (gamepad1.b){ //low junction preset
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
                     currentH = 500;
                     lift.setTargetPosition(currentH);
@@ -309,13 +307,13 @@ public class TSMainOpMode extends LinearOpMode {
 
                     telemetry.addData("lift velocity", lift.getVelocity());
 
-                } else if(gamepad1.a){ //lowest preset
+                } else if(gamepad1.a){ //lowest preset for picking up cones
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
                     currentH = 57;
                     lift.setTargetPosition(currentH);
                     if (wasHigh) {
                         lift.setPower(.3);
-                    } else if (wasMed) {
+                    } else if (wasLow) {
                         lift.setPower(.4);
                     } else {
                         lift.setPower(.5);
