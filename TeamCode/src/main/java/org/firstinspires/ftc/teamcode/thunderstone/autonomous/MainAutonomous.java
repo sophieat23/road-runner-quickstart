@@ -2,12 +2,15 @@ package org.firstinspires.ftc.teamcode.thunderstone.autonomous;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous(name = "6010 PowerPlay Autonomous", group = "6010 Autos")
 public class MainAutonomous extends LinearOpMode {
@@ -28,7 +31,7 @@ public class MainAutonomous extends LinearOpMode {
 
     private double DR4BMotor;
 
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -67,6 +70,10 @@ public class MainAutonomous extends LinearOpMode {
         frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
 
         lift.setDirection(DcMotorEx.Direction.REVERSE);
+
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        drive.setPoseEstimate(new Pose2d()); //find the locations
 
         boolean config = true;
         int state = 1;

@@ -1,18 +1,17 @@
 package org.firstinspires.ftc.teamcode.thunderstone.teleop;
 
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+//do we need an import for the gamepad?
 
 @TeleOp(name = "6010 PowerPlay TeleOp", group = "6010 TeleOps")
 public class TSMainOpMode extends LinearOpMode {
     private double slow = 1; //when slow = 1 there is no slow
-    private double slowR = 1; //slow for rotating
+    private double slowR = .5; //slow for rotating
     private double y = 0;
     private double equationY = 0;
     private double x = 0;
@@ -239,10 +238,10 @@ public class TSMainOpMode extends LinearOpMode {
                 }
 
                 //rotating w/o slow mode
-                FLMotor += (gamepad1.right_stick_x)  * .5 *slowR; //.5 * slow
-                BLMotor += (gamepad1.right_stick_x)  * .5 * slowR;
-                FRMotor += (-gamepad1.right_stick_x)  * .5 * slowR;
-                BRMotor += (-gamepad1.right_stick_x)  * .5 * slowR;
+                FLMotor += (gamepad1.right_stick_x)  * slowR;
+                BLMotor += (gamepad1.right_stick_x)  * slowR;
+                FRMotor += (-gamepad1.right_stick_x)  * slowR;
+                BRMotor += (-gamepad1.right_stick_x)  * slowR;
 
                 backLeft.setPower(BLMotor);
                 backRight.setPower(BRMotor);
