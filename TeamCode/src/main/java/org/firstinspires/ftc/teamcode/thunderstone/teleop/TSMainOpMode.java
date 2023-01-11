@@ -272,35 +272,37 @@ public class TSMainOpMode extends LinearOpMode {
                     currentH= lift.getCurrentPosition();
 
                     if(currentH > 300){
-                        lift.setPower(-.01);
+                        lift.setVelocity(-800);
                         // telemetry.addData("lift velocity", lift.getVelocity());
-                        lift.setPower(.0000000000000001);//gravity is doing most of the work so only need a little power to keep it from falling down too fast
-                    } else if (currentH > 150){ //removed else if current H > 150
-                        lift.setPower(-.0001); //making it power down
-                        // telemetry.addData("lift velocity", lift.getVelocity());
-                        // lift.setPower(.0005);//need less power because doesn't have as much gravitational potential energy
+//                        lift.setPower(-.0000000000000001);//gravity is doing most of the work so only need a little power to keep it from falling down too fast
                     }
+//                    else if (currentH > 150){ //removed else if current H > 150
+//                        lift.setPower(.001); //making it power down
+//                        // telemetry.addData("lift velocity", lift.getVelocity());
+//                        // lift.setPower(.0005);//need less power because doesn't have as much gravitational potential energy
+//                    }
                     else{
-                        lift.setPower(-.0001);//gravity doesnt do as much work here so power needs to be set to negative
+                        lift.setVelocity(-600);
+//                        lift.setPower(.0001);//gravity doesnt do as much work here so power needs to be set to negative
                     }
 
                 } else if (gamepad1.x) { //high junction preset
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    currentH = 900;
+                    currentH = 800;
                     lift.setTargetPosition(currentH);
                     lift.setPower(.5);
 
                     telemetry.addData("lift velocity", lift.getVelocity());
 
                 } else if (gamepad1.y) { //mid junction preset
-                    currentH = 700; //might need to change this, temp val
+                    currentH = 500; //might need to change this, temp val
                     lift.setTargetPosition(currentH);
                     lift.setPower(.5);
 
                     telemetry.addData("lift velocity", lift.getVelocity());
                 } else if (gamepad1.b){ //low junction preset
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    currentH = 500;
+                    currentH = 300;
                     lift.setTargetPosition(currentH);
                     lift.setPower(.5);
 
@@ -311,11 +313,14 @@ public class TSMainOpMode extends LinearOpMode {
                     currentH = 57;
                     lift.setTargetPosition(currentH);
                     if (wasHigh) {
-                        lift.setPower(.3);
+                        lift.setVelocity(800);
+//                        lift.setPower(.3);
                     } else if (wasLow) {
-                        lift.setPower(.4);
+                        lift.setVelocity(700);
+//                        lift.setPower(.4);
                     } else {
-                        lift.setPower(.5);
+                        lift.setVelocity(600);
+//                        lift.setPower(.5);
                     }
 
                     telemetry.addData("lift velocity", lift.getVelocity());
