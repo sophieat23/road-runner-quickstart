@@ -183,6 +183,7 @@ public class MainAutonomous extends LinearOpMode {
 
         }
 
+
         waitForStart();
 
         if (state == 4) { //blue side left
