@@ -51,8 +51,8 @@ public class TSMainOpMode extends LinearOpMode {
 
         //ATTENTION!!!
         //wrong sides rn bc auton code is reversed, need to fix once thats addressed!!
-        leftServo = hardwareMap.get(CRServo.class, "rightServo");
-        rightServo = hardwareMap.get(CRServo.class, "leftServo");
+        leftServo = hardwareMap.get(CRServo.class, "leftServo");
+        rightServo = hardwareMap.get(CRServo.class, "rightServo");
 
         //lift:
         lift = hardwareMap.get(DcMotorEx.class, "DR4B");
