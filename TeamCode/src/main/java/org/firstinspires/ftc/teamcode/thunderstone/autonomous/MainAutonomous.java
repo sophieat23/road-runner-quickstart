@@ -31,6 +31,8 @@ public class MainAutonomous extends LinearOpMode {
 
     private double DR4BMotor;
 
+    private AprilTagAutonomousInitDetectionExample apriltag;
+
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -187,7 +189,18 @@ public class MainAutonomous extends LinearOpMode {
         waitForStart();
 
         if (state == 4) { //blue side left
-
+            if(apriltag.getTagOfInterest().equals(null)||apriltag.getTagOfInterest().id == apriltag.LEFT)
+            {
+                // do something - traj
+            }
+            else if(apriltag.getTagOfInterest().id == apriltag.MIDDLE)
+            {
+                // do something else - traj
+            }
+            else if(apriltag.getTagOfInterest().id == apriltag.RIGHT)
+            {
+                // do something else - traj
+            }
         }
         if (state == 5) { //blue side right
 
