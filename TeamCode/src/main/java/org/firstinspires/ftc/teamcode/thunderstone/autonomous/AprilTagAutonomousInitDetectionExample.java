@@ -21,10 +21,14 @@
 
 package org.firstinspires.ftc.teamcode.thunderstone.autonomous;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -61,7 +65,8 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     public AprilTagDetection getTagOfInterest() {
         return tagOfInterest;
     }
-
+    boolean prgrmran = false; //unecesary to roadrunner but i have this so the programe only runs once later
+    public static double DISTANCE = 14;//is in feet
     @Override
     public void runOpMode()
     {
@@ -86,6 +91,64 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         });
 
         telemetry.setMsTransmissionInterval(50);
+
+
+
+        //RDR.
+        // Insert whatever initialization your own code does
+        SampleMecanumDrive myLocalizer = new SampleMecanumDrive(hardwareMap);
+        // This is assuming you're using StandardTrackingWheelLocalizer.java
+        // Switch this class to something else (Like TwoWheeTrackingLocalizer.java) if your configuration is different
+        // Set your initial pose to x: 10, y: 10, facing 90 degrees
+        myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
+
+        Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-34, -16., Math.toRadians(90)))
+                .splineTo(new Vector2d(-29, -11), Math.toRadians(45))
+                //^this would simulate going infornt of the pole and raising the
+                .build();
+
+        Trajectory traj2 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-29, -5, Math.toRadians(45)))
+                //^go from in front of pole to atop
+                .build();
+
+        Trajectory traj3 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-31, -11, Math.toRadians(45)))
+                //^back up
+                .build();
+
+        Trajectory traj4 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
+                //go in front of cones for pickup
+                .build();
+
+        Trajectory traj5 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-60.5,-12, Math.toRadians(180)))
+                //go atop cones
+                .build();
+        //pickup cone
+
+        Trajectory traj6 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
+                .build();
+        //back up ^
+        //lower lift - do- write that
+
+        Trajectory traj7 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-29, -11, Math.toRadians(45)))
+                .build();
+
+        Trajectory zone1 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(90)))
+                .build();
+        Trajectory zone2 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-34, -11, Math.toRadians(90)))
+                .build();
+        Trajectory zone3 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(90)))
+                .build();
+
 
         /*
          * The INIT-loop:
@@ -186,14 +249,38 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             if(tagOfInterest == null ||tagOfInterest.id == LEFT)
             {
                 // do something - traj
+                myLocalizer.followTrajectory(traj1);
+                myLocalizer.followTrajectory(traj2);
+                myLocalizer.followTrajectory(traj3);
+                myLocalizer.followTrajectory(traj4);
+                myLocalizer.followTrajectory(traj5);
+                myLocalizer.followTrajectory(traj6);
+                myLocalizer.followTrajectory(traj7);
+                myLocalizer.followTrajectory(zone3);
             }
             else if(tagOfInterest.id == MIDDLE)
             {
                 // do something else - traj
+                myLocalizer.followTrajectory(traj1);
+                myLocalizer.followTrajectory(traj2);
+                myLocalizer.followTrajectory(traj3);
+                myLocalizer.followTrajectory(traj4);
+                myLocalizer.followTrajectory(traj5);
+                myLocalizer.followTrajectory(traj6);
+                myLocalizer.followTrajectory(traj7);
+                myLocalizer.followTrajectory(zone2);
             }
             else if(tagOfInterest.id == RIGHT)
             {
                 // do something else - traj
+                myLocalizer.followTrajectory(traj1);
+                myLocalizer.followTrajectory(traj2);
+                myLocalizer.followTrajectory(traj3);
+                myLocalizer.followTrajectory(traj4);
+                myLocalizer.followTrajectory(traj5);
+                myLocalizer.followTrajectory(traj6);
+                myLocalizer.followTrajectory(traj7);
+                myLocalizer.followTrajectory(zone1);
             }
         }
 
