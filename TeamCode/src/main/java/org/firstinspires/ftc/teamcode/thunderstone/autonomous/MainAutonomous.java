@@ -12,6 +12,16 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
+
 @Autonomous(name = "6010 PowerPlay Autonomous", group = "6010 Autos")
 public class MainAutonomous extends LinearOpMode {
     private CRServo leftServo;
@@ -30,6 +40,9 @@ public class MainAutonomous extends LinearOpMode {
     private double FLMotor;
 
     private double DR4BMotor;
+
+    public static double DISTANCE = 14;//is in feet
+    boolean prgrmran = false; //unecesary to roadrunner but i have this so the programe only runs once later
 
     private AprilTagAutonomousInitDetectionExample apriltag;
 
@@ -186,30 +199,112 @@ public class MainAutonomous extends LinearOpMode {
         }
 
 
+        //roadrunner
+        SampleMecanumDrive myLocalizer = new SampleMecanumDrive(hardwareMap);
+        myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
+        //this starting point would be on the left
+
+        Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-34, -16., Math.toRadians(90)))
+                .splineTo (new Vector2d(-29, -11), Math.toRadians(45))
+                //^this would simulate going infornt of the pole and raising the
+                .build();
+        Trajectory traj2 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-29, -5, Math.toRadians(45)))
+                //^go from in front of pole to atop
+                .build();
+        Trajectory traj3 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-31, -11, Math.toRadians(45)))
+                //^back up
+                .build();
+        Trajectory traj4 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
+                //go in front of cones for pickup
+                .build();
+        Trajectory traj5 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-60.5,-12, Math.toRadians(180)))
+                //go atop cones
+                .build();
+        //pickup cone
+        Trajectory traj6 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
+                .build();
+        //back up ^
+        //lower lift - do- write that
+        Trajectory traj7 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-29, -11, Math.toRadians(45)))
+                .build();
+
+        Trajectory zone1 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(90)))
+                .build();
+        Trajectory zone2 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-34, -11, Math.toRadians(90)))
+                .build();
+        Trajectory zone3 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(90)))
+                .build();
         waitForStart();
+        while(opModeIsActive()) {
+            // Make sure to call myLocalizer.update() on *every* loop
+            // Increasing loop time by utilizing bulk reads and minimizing writes will increase your odometry accuracy
+            myLocalizer.update();
 
-        if (state == 4) { //blue side left
-            if(apriltag.getTagOfInterest().equals(null)||apriltag.getTagOfInterest().id == apriltag.LEFT)
-            {
-                // do something - traj
+            // Retrieve your pose
+            Pose2d myPose = myLocalizer.getPoseEstimate();
+
+            telemetry.addData("x", myPose.getX());
+            telemetry.addData("y", myPose.getY());
+            telemetry.addData("heading", myPose.getHeading());
+
+            if (state == 4) { //blue side left
+                if (apriltag.getTagOfInterest().equals(null) || apriltag.getTagOfInterest().id == apriltag.LEFT) {
+                    // do something - traj
+                } else if (apriltag.getTagOfInterest().id == apriltag.MIDDLE) {
+                    // do something else - traj
+                } else if (apriltag.getTagOfInterest().id == apriltag.RIGHT) {
+                    // do something else - traj
+                }
             }
-            else if(apriltag.getTagOfInterest().id == apriltag.MIDDLE)
-            {
-                // do something else - traj
+            if (state == 5) { //blue side right
+
             }
-            else if(apriltag.getTagOfInterest().id == apriltag.RIGHT)
-            {
-                // do something else - traj
+            if (state == 6) { //red side left
+                if (apriltag.getTagOfInterest().equals(null) || apriltag.getTagOfInterest().id == apriltag.LEFT) {
+                    // do something - traj
+                    myLocalizer.followTrajectory(traj1);
+                    myLocalizer.followTrajectory(traj2);
+                    myLocalizer.followTrajectory(traj3);
+                    myLocalizer.followTrajectory(traj4);
+                    myLocalizer.followTrajectory(traj5);
+                    myLocalizer.followTrajectory(traj6);
+                    myLocalizer.followTrajectory(traj7);
+                    myLocalizer.followTrajectory(zone3);
+                } else if (apriltag.getTagOfInterest().id == apriltag.MIDDLE) {
+                    // do something else - traj
+                    myLocalizer.followTrajectory(traj1);
+                    myLocalizer.followTrajectory(traj2);
+                    myLocalizer.followTrajectory(traj3);
+                    myLocalizer.followTrajectory(traj4);
+                    myLocalizer.followTrajectory(traj5);
+                    myLocalizer.followTrajectory(traj6);
+                    myLocalizer.followTrajectory(traj7);
+                    myLocalizer.followTrajectory(zone2);
+                } else if (apriltag.getTagOfInterest().id == apriltag.RIGHT) {
+                    // do something else - traj
+                    myLocalizer.followTrajectory(traj1);
+                    myLocalizer.followTrajectory(traj2);
+                    myLocalizer.followTrajectory(traj3);
+                    myLocalizer.followTrajectory(traj4);
+                    myLocalizer.followTrajectory(traj5);
+                    myLocalizer.followTrajectory(traj6);
+                    myLocalizer.followTrajectory(traj7);
+                    myLocalizer.followTrajectory(zone1);
+                }
             }
-        }
-        if (state == 5) { //blue side right
+            if (state == 7) { //red side right
 
-        }
-        if (state == 6) { //red side left
-
-        }
-        if (state == 7) { //red side right
-
+            }
         }
     }
 }

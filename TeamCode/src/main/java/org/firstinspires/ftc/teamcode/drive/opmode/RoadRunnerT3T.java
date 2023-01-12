@@ -27,11 +27,52 @@ public class RoadRunnerT3T extends LinearOpMode {
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
-        Trajectory trajectorySplineRed = myLocalizer.trajectoryBuilder(new Pose2d())
-                .splineTo(new Vector2d(-36.5, -23), Math.toRadians(90))
-                .splineTo(new Vector2d(-61.5, -11.6), Math.toRadians(180))
+        Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-34, -16., Math.toRadians(90)))
+                .splineTo(new Vector2d(-29, -11), Math.toRadians(45))
+                //^this would simulate going infornt of the pole and raising the
                 .build();
 
+        Trajectory traj2 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-29, -5, Math.toRadians(45)))
+                //^go from in front of pole to atop
+                .build();
+
+        Trajectory traj3 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-31, -11, Math.toRadians(45)))
+                //^back up
+                .build();
+
+        Trajectory traj4 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
+                //go in front of cones for pickup
+                .build();
+
+        Trajectory traj5 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-60.5,-12, Math.toRadians(180)))
+                //go atop cones
+                .build();
+        //pickup cone
+
+        Trajectory traj6 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
+                .build();
+        //back up ^
+        //lower lift - do- write that
+
+        Trajectory traj7 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-29, -11, Math.toRadians(45)))
+                .build();
+
+        Trajectory zone1 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(90)))
+                .build();
+        Trajectory zone2 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-34, -11, Math.toRadians(90)))
+                .build();
+        Trajectory zone3 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(90)))
+                .build();
         waitForStart();
 
 
@@ -49,7 +90,7 @@ public class RoadRunnerT3T extends LinearOpMode {
 
             // Insert whatever teleop code you're using - dosent have to be in loop or conditional
             if(prgrmran = false) {//thiss loop prevents ramming into stuff if u dont reset pos befor running code again
-                myLocalizer.followTrajectory(trajectorySplineRed);
+                myLocalizer.followTrajectory(traj1);
             }
             prgrmran = true;
 
