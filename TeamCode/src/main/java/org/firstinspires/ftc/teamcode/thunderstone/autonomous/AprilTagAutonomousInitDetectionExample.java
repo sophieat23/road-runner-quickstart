@@ -58,6 +58,10 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
     AprilTagDetection tagOfInterest = null;
 
+    public AprilTagDetection getTagOfInterest() {
+        return tagOfInterest;
+    }
+
     @Override
     public void runOpMode()
     {
