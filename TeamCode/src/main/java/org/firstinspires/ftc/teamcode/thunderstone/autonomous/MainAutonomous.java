@@ -244,6 +244,7 @@ public class MainAutonomous extends LinearOpMode {
         Trajectory zone3 = myLocalizer.trajectoryBuilder(new Pose2d())
                 .lineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(90)))
                 .build();
+
         waitForStart();
         while(opModeIsActive()) {
             // Make sure to call myLocalizer.update() on *every* loop
@@ -270,35 +271,21 @@ public class MainAutonomous extends LinearOpMode {
 
             }
             if (state == 6) { //red side left
+                myLocalizer.followTrajectory(traj1);
+                myLocalizer.followTrajectory(traj2);
+                myLocalizer.followTrajectory(traj3);
+                myLocalizer.followTrajectory(traj4);
+                myLocalizer.followTrajectory(traj5);
+                myLocalizer.followTrajectory(traj6);
+                myLocalizer.followTrajectory(traj7);
                 if (apriltag.getTagOfInterest().equals(null) || apriltag.getTagOfInterest().id == apriltag.LEFT) {
                     // do something - traj
-                    myLocalizer.followTrajectory(traj1);
-                    myLocalizer.followTrajectory(traj2);
-                    myLocalizer.followTrajectory(traj3);
-                    myLocalizer.followTrajectory(traj4);
-                    myLocalizer.followTrajectory(traj5);
-                    myLocalizer.followTrajectory(traj6);
-                    myLocalizer.followTrajectory(traj7);
                     myLocalizer.followTrajectory(zone3);
                 } else if (apriltag.getTagOfInterest().id == apriltag.MIDDLE) {
                     // do something else - traj
-                    myLocalizer.followTrajectory(traj1);
-                    myLocalizer.followTrajectory(traj2);
-                    myLocalizer.followTrajectory(traj3);
-                    myLocalizer.followTrajectory(traj4);
-                    myLocalizer.followTrajectory(traj5);
-                    myLocalizer.followTrajectory(traj6);
-                    myLocalizer.followTrajectory(traj7);
                     myLocalizer.followTrajectory(zone2);
                 } else if (apriltag.getTagOfInterest().id == apriltag.RIGHT) {
                     // do something else - traj
-                    myLocalizer.followTrajectory(traj1);
-                    myLocalizer.followTrajectory(traj2);
-                    myLocalizer.followTrajectory(traj3);
-                    myLocalizer.followTrajectory(traj4);
-                    myLocalizer.followTrajectory(traj5);
-                    myLocalizer.followTrajectory(traj6);
-                    myLocalizer.followTrajectory(traj7);
                     myLocalizer.followTrajectory(zone1);
                 }
             }
