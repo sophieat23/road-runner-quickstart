@@ -139,10 +139,10 @@ public class TSMainOpMode extends LinearOpMode {
                 // }
 
                 //temp servo code:
-                if (gamepad1.dpad_up || gamepad1.left_bumper) { //intake cone
+                if (gamepad1.dpad_up) { //intake cone
                     leftServo.setPower(1);
                     rightServo.setPower(-1);
-                } else if (gamepad1.dpad_down || gamepad1.right_bumper) { //drop cone
+                } else if (gamepad1.dpad_down) { //drop cone
                     leftServo.setPower(-1);
                     rightServo.setPower(1);
                 } else {
@@ -248,6 +248,13 @@ public class TSMainOpMode extends LinearOpMode {
                 frontLeft.setPower(FLMotor);
                 frontRight.setPower(FRMotor);
 
+                //rotating 90 degrees
+                if (gamepad1.left_bumper) { //rotate to the left 90
+                    //we may need to switch to using encoder to do this, or find a way to use roadrunner
+                } else if (gamepad1.right_bumper) { //rotate to the right 90
+
+                }
+
                 //checking height
                 wasHigh = lift.getCurrentPosition() >= 700;
                 wasLow = lift.getCurrentPosition() >= 400;
@@ -310,7 +317,7 @@ public class TSMainOpMode extends LinearOpMode {
 
                 } else if(gamepad1.a){ //lowest preset for picking up cones
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    currentH = 57;
+                    currentH = 70;
                     lift.setTargetPosition(currentH);
                     if (wasHigh) {
                         lift.setVelocity(800);
