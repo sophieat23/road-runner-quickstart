@@ -103,7 +103,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
         Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-34, -16., Math.toRadians(90)))
+                .lineToSplineHeading(new Pose2d(-34, -16, Math.toRadians(90)))
                 .splineTo(new Vector2d(-29, -11), Math.toRadians(45))
                 //^this would simulate going infornt of the pole and raising the
                 .build();
@@ -243,44 +243,54 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         {
             /*
              * Insert your autonomous code here, probably using the tag pose to decide your configuration.
+             *
              */
+
+            myLocalizer.update();
+
+            // Retrieve your pose
+            Pose2d myPose = myLocalizer.getPoseEstimate();
+
+            telemetry.addData("x", myPose.getX());
+            telemetry.addData("y", myPose.getY());
+            telemetry.addData("heading", myPose.getHeading());
 
             // e.g.
             if(tagOfInterest == null ||tagOfInterest.id == LEFT)
             {
                 // do something - traj
                 myLocalizer.followTrajectory(traj1);
-                myLocalizer.followTrajectory(traj2);
-                myLocalizer.followTrajectory(traj3);
-                myLocalizer.followTrajectory(traj4);
-                myLocalizer.followTrajectory(traj5);
-                myLocalizer.followTrajectory(traj6);
-                myLocalizer.followTrajectory(traj7);
-                myLocalizer.followTrajectory(zone3);
+//                myLocalizer.followTrajectory(traj2);
+//                myLocalizer.followTrajectory(traj3);
+//                myLocalizer.followTrajectory(traj4);
+//                myLocalizer.followTrajectory(traj5);
+//                myLocalizer.followTrajectory(traj6);
+//                myLocalizer.followTrajectory(traj7);
+//                myLocalizer.followTrajectory(zone3);
             }
             else if(tagOfInterest.id == MIDDLE)
             {
                 // do something else - traj
                 myLocalizer.followTrajectory(traj1);
-                myLocalizer.followTrajectory(traj2);
-                myLocalizer.followTrajectory(traj3);
-                myLocalizer.followTrajectory(traj4);
-                myLocalizer.followTrajectory(traj5);
-                myLocalizer.followTrajectory(traj6);
-                myLocalizer.followTrajectory(traj7);
-                myLocalizer.followTrajectory(zone2);
+//                myLocalizer.followTrajectory(traj2);
+//                myLocalizer.followTrajectory(traj3);
+//                myLocalizer.followTrajectory(traj4);
+//                myLocalizer.followTrajectory(traj5);
+//                myLocalizer.followTrajectory(traj6);
+//                myLocalizer.followTrajectory(traj7);
+//                myLocalizer.followTrajectory(zone2);
             }
             else if(tagOfInterest.id == RIGHT)
             {
                 // do something else - traj
                 myLocalizer.followTrajectory(traj1);
-                myLocalizer.followTrajectory(traj2);
-                myLocalizer.followTrajectory(traj3);
-                myLocalizer.followTrajectory(traj4);
-                myLocalizer.followTrajectory(traj5);
-                myLocalizer.followTrajectory(traj6);
-                myLocalizer.followTrajectory(traj7);
-                myLocalizer.followTrajectory(zone1);
+//                myLocalizer.followTrajectory(traj2);
+//                myLocalizer.followTrajectory(traj3);
+//                myLocalizer.followTrajectory(traj4);
+//                myLocalizer.followTrajectory(traj5);
+//                myLocalizer.followTrajectory(traj6);
+//                myLocalizer.followTrajectory(traj7);
+//                myLocalizer.followTrajectory(zone1);
             }
         }
 

@@ -29,7 +29,7 @@ public class RoadRunnerT3T extends LinearOpMode {
 
         Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
                 .lineToSplineHeading(new Pose2d(-34, -16., Math.toRadians(90)))
-                .splineTo(new Vector2d(-29, -11), Math.toRadians(45))
+                //.splineTo(new Vector2d(-29, -11), Math.toRadians(45))
                 //^this would simulate going infornt of the pole and raising the
                 .build();
 
@@ -89,11 +89,12 @@ public class RoadRunnerT3T extends LinearOpMode {
             telemetry.addData("heading", myPose.getHeading());
 
             // Insert whatever teleop code you're using - dosent have to be in loop or conditional
-            if(prgrmran = false) {//thiss loop prevents ramming into stuff if u dont reset pos befor running code again
-                myLocalizer.followTrajectory(traj1);
-            }
-            prgrmran = true;
+//            if(prgrmran = false) {//thiss loop prevents ramming into stuff if u dont reset pos befor running code again
+//                myLocalizer.followTrajectory(traj1);
+//            }
+//            prgrmran = true;
 
+            myLocalizer.followTrajectory(traj1);
         }
     }
 }
