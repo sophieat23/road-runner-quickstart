@@ -212,23 +212,23 @@ public class MainAutonomous extends LinearOpMode {
 //                .lineTo(new Vector2d(-60, -12))
                 .build();
 
-        Trajectory trL2 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+        Trajectory trL2 = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -7.3, Math.toRadians(90)))
                .lineTo(new Vector2d(-35.5, -36.3))
 //                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
 //                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
 //                .lineTo(new Vector2d(-60, -12))
                 .build();
 
-        Trajectory trL3 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+        Trajectory trL3 = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -36.3, Math.toRadians(90)))
                 .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
 //                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
 //                .lineTo(new Vector2d(-60, -12))
                 .build();
-        Trajectory trL4 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+        Trajectory trL4 = myLocalizer.trajectoryBuilder(new Pose2d(-30, -30, Math.toRadians(45)))
                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
 //                .lineTo(new Vector2d(-60, -12))
                 .build();
-        Trajectory trL5 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+        Trajectory trL5 = myLocalizer.trajectoryBuilder(new Pose2d(-39.1, -10, Math.toRadians(180)))
 
                .lineTo(new Vector2d(-60, -12))
                 .build();
