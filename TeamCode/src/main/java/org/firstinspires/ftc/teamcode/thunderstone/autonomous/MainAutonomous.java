@@ -306,7 +306,11 @@ public class MainAutonomous extends LinearOpMode {
             if (state == 4) { //blue side left
 //                myLocalizer.followTrajectory(tr1);
 //                myLocalizer.followTrajectory(tr2);
-                myLocalizer.followTrajectory(trL);
+                myLocalizer.followTrajectory(trL1);
+                myLocalizer.followTrajectory(trL2);
+                myLocalizer.followTrajectory(trL3);
+                myLocalizer.followTrajectory(trL4);
+                myLocalizer.followTrajectory(trL5);
 
 //                if (apriltag.getTagOfInterest().equals(null) || apriltag.getTagOfInterest().id == apriltag.LEFT) {
 //                    myLocalizer.followTrajectory(tr1);
