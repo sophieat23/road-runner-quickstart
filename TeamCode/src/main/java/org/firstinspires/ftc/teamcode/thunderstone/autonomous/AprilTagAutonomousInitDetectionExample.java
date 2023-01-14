@@ -24,7 +24,6 @@ package org.firstinspires.ftc.teamcode.thunderstone.autonomous;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -37,7 +36,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous ()
+@TeleOp(name = "6010 April Tag Example")
 public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 {
     OpenCvCamera camera;
@@ -57,7 +56,6 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-    //tag IDs of sleeves
     int LEFT = 1;
     int MIDDLE = 2;
     int RIGHT = 3;
@@ -67,7 +65,8 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     public AprilTagDetection getTagOfInterest() {
         return tagOfInterest;
     }
-    boolean prgrmran = false; //unecesary to roadrunner but i have this so the programe only runs once later
+    boolean prgrmran = false; //unnecessary to roadrunner but i have this so the program only runs once later
+    //josh why is it spelled like this
     public static double DISTANCE = 14;//is in feet
     @Override
     public void runOpMode()
@@ -103,6 +102,15 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         // Switch this class to something else (Like TwoWheeTrackingLocalizer.java) if your configuration is different
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
+
+        Trajectory tr1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35, -7.3))
+//                .forward(55)
+                .build();
+        Trajectory tr2 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -7.3, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35, -36.3))
+//                .back(30)
+                .build();
 
         Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
                 .lineToSplineHeading(new Pose2d(-34, -16, Math.toRadians(90)))
@@ -232,36 +240,38 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
         }
-//
-//        /* Actually do something useful */
-//        if(tagOfInterest == null)
-//        {
-//            /*
-//             * Insert your autonomous code here, presumably running some default configuration
-//             * since the tag was never sighted during INIT
-//             */
-//        }
-//        else
-//        {
-//            /*
-//             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
-//             *
-//             */
-//
-//            myLocalizer.update();
-//
-//            // Retrieve your pose
-//            Pose2d myPose = myLocalizer.getPoseEstimate();
-//
-//            telemetry.addData("x", myPose.getX());
-//            telemetry.addData("y", myPose.getY());
-//            telemetry.addData("heading", myPose.getHeading());
+
+        /* Actually do something useful */
+        if(tagOfInterest == null)
+        {
+            /*
+             * Insert your autonomous code here, presumably running some default configuration
+             * since the tag was never sighted during INIT
+             */
+        }
+        else
+        {
+            /*
+             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
+             *
+             */
+
+            myLocalizer.update();
+
+            // Retrieve your pose
+            Pose2d myPose = myLocalizer.getPoseEstimate();
+
+            telemetry.addData("x", myPose.getX());
+            telemetry.addData("y", myPose.getY());
+            telemetry.addData("heading", myPose.getHeading());
 
             // e.g.
-            if (tagOfInterest.id == LEFT) //left april tag = 1
+            if(tagOfInterest == null ||tagOfInterest.id == LEFT)
             {
                 // do something - traj
-                myLocalizer.followTrajectory(traj1);
+                myLocalizer.followTrajectory(tr1);
+                myLocalizer.followTrajectory(tr2);
+//                myLocalizer.followTrajectory(traj1);
 //                myLocalizer.followTrajectory(traj2);
 //                myLocalizer.followTrajectory(traj3);
 //                myLocalizer.followTrajectory(traj4);
@@ -270,10 +280,10 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 //                myLocalizer.followTrajectory(traj7);
 //                myLocalizer.followTrajectory(zone3);
             }
-            else if (tagOfInterest == null || tagOfInterest.id == MIDDLE) //left april tag = 2 or no april tag detected
+            else if(tagOfInterest.id == MIDDLE)
             {
                 // do something else - traj
-                myLocalizer.followTrajectory(traj1);
+//                myLocalizer.followTrajectory(traj1);
 //                myLocalizer.followTrajectory(traj2);
 //                myLocalizer.followTrajectory(traj3);
 //                myLocalizer.followTrajectory(traj4);
@@ -282,10 +292,10 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 //                myLocalizer.followTrajectory(traj7);
 //                myLocalizer.followTrajectory(zone2);
             }
-            else if (tagOfInterest.id == RIGHT) //right april tag = 3
+            else if(tagOfInterest.id == RIGHT)
             {
                 // do something else - traj
-                myLocalizer.followTrajectory(traj1);
+//                myLocalizer.followTrajectory(traj1);
 //                myLocalizer.followTrajectory(traj2);
 //                myLocalizer.followTrajectory(traj3);
 //                myLocalizer.followTrajectory(traj4);
@@ -298,8 +308,8 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-//        while (opModeIsActive()) {sleep(20);}
-//    }
+        while (opModeIsActive()) {sleep(20);}
+    }
 
     void tagToTelemetry(AprilTagDetection detection)
     {

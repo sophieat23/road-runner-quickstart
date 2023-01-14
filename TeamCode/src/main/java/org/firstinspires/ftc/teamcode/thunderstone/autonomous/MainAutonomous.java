@@ -204,11 +204,20 @@ public class MainAutonomous extends LinearOpMode {
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
         //this starting point would be on the left
 
+        Trajectory trL = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35.5, -7.3))
+                .lineTo(new Vector2d(-35.5, -36.3))
+                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+
         Trajectory tr1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -7.3))
 //                .forward(55)
                 .build();
-        Trajectory tr2 = myLocalizer.trajectoryBuilder(new Pose2d())
+        Trajectory tr2 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -7.3, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -36.3))
 //                .back(30)
                 .build();
@@ -257,6 +266,9 @@ public class MainAutonomous extends LinearOpMode {
                 .lineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(90)))
                 .build();
 
+
+
+
         waitForStart();
         while(opModeIsActive()) {
             // Make sure to call myLocalizer.update() on *every* loop
@@ -271,16 +283,23 @@ public class MainAutonomous extends LinearOpMode {
             telemetry.addData("heading", myPose.getHeading());
 
             if (state == 4) { //blue side left
-                myLocalizer.followTrajectory(tr1);
-                myLocalizer.followTrajectory(tr2);
+//                myLocalizer.followTrajectory(tr1);
+//                myLocalizer.followTrajectory(tr2);
+                myLocalizer.followTrajectory(trL);
 
-                if (apriltag.getTagOfInterest().equals(null) || apriltag.getTagOfInterest().id == apriltag.LEFT) {
-                    // do something - traj
-                } else if (apriltag.getTagOfInterest().id == apriltag.MIDDLE) {
-                    // do something else - traj
-                } else if (apriltag.getTagOfInterest().id == apriltag.RIGHT) {
-                    // do something else - traj
-                }
+//                if (apriltag.getTagOfInterest().equals(null) || apriltag.getTagOfInterest().id == apriltag.LEFT) {
+//                    myLocalizer.followTrajectory(tr1);
+//                    myLocalizer.followTrajectory(tr2);
+//                    // do something - traj
+//                } else if (apriltag.getTagOfInterest().id == apriltag.MIDDLE) {
+//                    myLocalizer.followTrajectory(tr1);
+//                    myLocalizer.followTrajectory(tr2);
+//                    // do something else - traj
+//                } else if (apriltag.getTagOfInterest().id == apriltag.RIGHT) {
+//                    myLocalizer.followTrajectory(tr1);
+//                    myLocalizer.followTrajectory(tr2);
+//                    // do something else - traj
+//                }
             }
             if (state == 5) { //blue side right
 
