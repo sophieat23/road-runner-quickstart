@@ -153,7 +153,9 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         Trajectory trL9 = myLocalizer.trajectoryBuilder(new Pose2d(-10, -13, Math.toRadians(180)))
                 .lineTo(new Vector2d(-60, -12))
                 .build();
-
+        Trajectory trL10 = myLocalizer.trajectoryBuilder(new Pose2d(-60, -12, Math.toRadians(180)))
+                .lineTo(new Vector2d(-59, -34))
+                .build();
 
 
 
@@ -317,6 +319,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
                 myLocalizer.followTrajectory(trL8);
                 myLocalizer.followTrajectory(trL9);
             }
+            myLocalizer.followTrajectory(trL10);
 
 //            //SOPHIE's
 //            // do something - traj
