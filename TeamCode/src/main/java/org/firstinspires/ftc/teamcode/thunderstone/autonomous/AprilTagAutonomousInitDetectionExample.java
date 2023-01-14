@@ -156,6 +156,8 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
 
 
+
+
         Trajectory parkLeft1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -35))
                 .build();
