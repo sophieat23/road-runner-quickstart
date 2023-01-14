@@ -103,6 +103,10 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
+        Trajectory parkLeft = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35, -35))
+                .lineTo(new Vector2d(-60, -35))
+                .build();
         Trajectory tr1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -7.3))
 //                .forward(55)
@@ -241,20 +245,20 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             telemetry.update();
         }
 
-        /* Actually do something useful */
-        if(tagOfInterest == null)
-        {
-            /*
-             * Insert your autonomous code here, presumably running some default configuration
-             * since the tag was never sighted during INIT
-             */
-        }
-        else
-        {
-            /*
-             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
-             *
-             */
+//        /* Actually do something useful */
+//        if(tagOfInterest == null)
+//        {
+//            /*
+//             * Insert your autonomous code here, presumably running some default configuration
+//             * since the tag was never sighted during INIT
+//             */
+//        }
+//        else
+//        {
+//            /*
+//             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
+//             *
+//             */
 
             myLocalizer.update();
 
@@ -266,11 +270,12 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             telemetry.addData("heading", myPose.getHeading());
 
             // e.g.
-            if(tagOfInterest == null ||tagOfInterest.id == LEFT)
+            if(tagOfInterest.id == LEFT) //tag = 1 detected, left side park
             {
                 // do something - traj
-                myLocalizer.followTrajectory(tr1);
-                myLocalizer.followTrajectory(tr2);
+                myLocalizer.followTrajectory(parkLeft);
+//                myLocalizer.followTrajectory(tr1);
+//                myLocalizer.followTrajectory(tr2);
 //                myLocalizer.followTrajectory(traj1);
 //                myLocalizer.followTrajectory(traj2);
 //                myLocalizer.followTrajectory(traj3);
@@ -280,7 +285,8 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 //                myLocalizer.followTrajectory(traj7);
 //                myLocalizer.followTrajectory(zone3);
             }
-            else if(tagOfInterest.id == MIDDLE)
+            else if(tagOfInterest == null || tagOfInterest.id == MIDDLE)
+                //if theres no tag detected or if its the middle one so tag = 2, middle park
             {
                 // do something else - traj
 //                myLocalizer.followTrajectory(traj1);
@@ -292,7 +298,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 //                myLocalizer.followTrajectory(traj7);
 //                myLocalizer.followTrajectory(zone2);
             }
-            else if(tagOfInterest.id == RIGHT)
+            else if(tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
             {
                 // do something else - traj
 //                myLocalizer.followTrajectory(traj1);
@@ -304,7 +310,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 //                myLocalizer.followTrajectory(traj7);
 //                myLocalizer.followTrajectory(zone1);
             }
-        }
+//        }
 
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
