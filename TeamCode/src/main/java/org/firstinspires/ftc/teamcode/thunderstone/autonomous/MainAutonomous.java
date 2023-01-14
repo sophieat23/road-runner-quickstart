@@ -291,7 +291,7 @@ public class MainAutonomous extends LinearOpMode {
 
 
         waitForStart();
-        while(opModeIsActive()) {
+        //while(opModeIsActive()) {
             // Make sure to call myLocalizer.update() on *every* loop
             // Increasing loop time by utilizing bulk reads and minimizing writes will increase your odometry accuracy
             myLocalizer.update();
@@ -351,6 +351,6 @@ public class MainAutonomous extends LinearOpMode {
             if (state == 7) { //red side right
 
             }
-        }
+        //}
     }
 }
