@@ -29,6 +29,18 @@ public class MeepMeepTesting {
                                 .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
                                 .lineTo(new Vector2d(-60, -12))
 
+
+                                .lineTo(new Vector2d(-10, -13))
+                                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
+                                .lineToSplineHeading(new Pose2d(-10, -13, Math.toRadians(180)))
+                                .lineTo(new Vector2d(-60, -12))
+
+
+
+
+
+
+
                                 //.lineTo(new Vector2d(-35.5,-19))
 
 
