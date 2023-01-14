@@ -204,6 +204,18 @@ public class MainAutonomous extends LinearOpMode {
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
         //this starting point would be on the left
 
+        Trajectory tr1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35, -7.3))
+//                .forward(55)
+                .build();
+        Trajectory tr2 = myLocalizer.trajectoryBuilder(new Pose2d())
+                .lineTo(new Vector2d(-35, -36.3))
+//                .back(30)
+                .build();
+//        Trajectory tr3 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .turn(-.75,39,39)
+//                .build();
+
         Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
                 .lineToSplineHeading(new Pose2d(-34, -16., Math.toRadians(90)))
                 .splineTo (new Vector2d(-29, -11), Math.toRadians(45))
@@ -259,6 +271,9 @@ public class MainAutonomous extends LinearOpMode {
             telemetry.addData("heading", myPose.getHeading());
 
             if (state == 4) { //blue side left
+                myLocalizer.followTrajectory(tr1);
+                myLocalizer.followTrajectory(tr2);
+
                 if (apriltag.getTagOfInterest().equals(null) || apriltag.getTagOfInterest().id == apriltag.LEFT) {
                     // do something - traj
                 } else if (apriltag.getTagOfInterest().id == apriltag.MIDDLE) {
