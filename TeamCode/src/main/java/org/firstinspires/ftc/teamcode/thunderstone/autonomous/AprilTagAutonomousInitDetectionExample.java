@@ -103,6 +103,59 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
+        //testing trajectories lily wrote:
+        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35.5, -7.3))
+//                .lineTo(new Vector2d(-35.5, -36.3))
+//                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+        Trajectory trL2 = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -7.3, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35.5, -36.3))
+//                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+        Trajectory trL3 = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -36.3, Math.toRadians(90)))
+                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+        Trajectory trL4 = myLocalizer.trajectoryBuilder(new Pose2d(-30, -30, Math.toRadians(45)))
+                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+        Trajectory trL5 = myLocalizer.trajectoryBuilder(new Pose2d(-39.1, -10, Math.toRadians(180)))
+                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+        Trajectory trL6 = myLocalizer.trajectoryBuilder(new Pose2d(-60, -12, Math.toRadians(180)))
+                .lineTo(new Vector2d(-10, -13))
+//                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
+//                .lineToSplineHeading(new Pose2d(-10, -13, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+        Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-10, -13, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
+//                .lineToSplineHeading(new Pose2d(-10, -13, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+        Trajectory trL8 = myLocalizer.trajectoryBuilder(new Pose2d(-17, -16, Math.toRadians(225)))
+                .lineToSplineHeading(new Pose2d(-10, -13, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+        Trajectory trL9 = myLocalizer.trajectoryBuilder(new Pose2d(-10, -13, Math.toRadians(180)))
+                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+
+
         Trajectory parkLeft1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -35))
                 .build();
@@ -250,9 +303,25 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         /* Actually do something useful */
         if(tagOfInterest.id == LEFT) //tag = 1 detected, left side park
         {
-            // do something - traj
-            myLocalizer.followTrajectory(parkLeft1);
-            myLocalizer.followTrajectory(parkLeft2);
+
+            myLocalizer.followTrajectory(trL1);
+            myLocalizer.followTrajectory(trL2);
+            myLocalizer.followTrajectory(trL3);
+            myLocalizer.followTrajectory(trL4);
+            myLocalizer.followTrajectory(trL5);
+            for(int i = 0; i <2; i++){
+                myLocalizer.followTrajectory(trL6);
+                myLocalizer.followTrajectory(trL7);
+                myLocalizer.followTrajectory(trL8);
+                myLocalizer.followTrajectory(trL9);
+            }
+
+//            //SOPHIE's
+//            // do something - traj
+//            myLocalizer.followTrajectory(parkLeft1);
+//            myLocalizer.followTrajectory(parkLeft2);
+
+            //JOSH's
 //                myLocalizer.followTrajectory(tr1);
 //                myLocalizer.followTrajectory(tr2);
 //                myLocalizer.followTrajectory(traj1);
