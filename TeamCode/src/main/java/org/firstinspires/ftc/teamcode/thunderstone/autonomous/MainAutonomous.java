@@ -204,12 +204,33 @@ public class MainAutonomous extends LinearOpMode {
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
         //this starting point would be on the left
 
-        Trajectory trL = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35.5, -7.3))
-                .lineTo(new Vector2d(-35.5, -36.3))
+//                .lineTo(new Vector2d(-35.5, -36.3))
+//                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+        Trajectory trL2 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+               .lineTo(new Vector2d(-35.5, -36.3))
+//                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+
+        Trajectory trL3 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
-                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
-                .lineTo(new Vector2d(-60, -12))
+//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+        Trajectory trL4 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+               .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-60, -12))
+                .build();
+        Trajectory trL5 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+
+               .lineTo(new Vector2d(-60, -12))
                 .build();
 
 
