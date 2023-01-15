@@ -22,12 +22,12 @@ public class MeepMeepTesting {
 //                                //lift code here to middle height
                                 //.lineTo(new Vector2d(-28.8,-30))
 
-
-                                .lineTo(new Vector2d(-35.5, -7.3))
-                                .lineTo(new Vector2d(-35.5, -36.3))
-                                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
-                                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
-                                .lineTo(new Vector2d(-60, -12))
+                                //lilys code
+//                                .lineTo(new Vector2d(-35.5, -7.3))
+//                                .lineTo(new Vector2d(-35.5, -36.3))
+//                                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+//                                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
+//                                .lineTo(new Vector2d(-60, -12))
 
 
                                 .lineTo(new Vector2d(-10, -13))
@@ -49,7 +49,9 @@ public class MeepMeepTesting {
                                 //.lineTo(new Vector2d(-35.5,-19))
 
 
-
+                                //just parking code
+                                .lineTo(new Vector2d(-35, -35))
+                                .strafeTo(new Vector2d(-60, -35))
 
 
 
