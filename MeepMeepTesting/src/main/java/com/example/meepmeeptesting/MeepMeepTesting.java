@@ -15,6 +15,25 @@ public class MeepMeepTesting {
                 .setConstraints(45.48291908330528, 45.48291908330528, Math.toRadians(180), Math.toRadians(180), 11.5)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-35, -61.5, Math.toRadians(90))) //starting pos
+
+                                //push cone out of the way
+                                .lineTo(new Vector2d(-35.5, -7.3))
+                                //move back near mid junc to prepare to score
+                                .lineTo(new Vector2d(-35.5, -36.3))
+                                //turn and move to mid junc while scoring
+                                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+                                //move back out of the way and rotate
+                                .lineToSplineHeading(new Pose2d(-35.5, -36.3, Math.toRadians(90)))
+                                //move forward to clear junctions before rotating
+                                .lineTo(new Vector2d(-35.5, -20))
+                                //turn left 90 while moving to prepare for the stack
+                                .lineToSplineHeading(new Pose2d(-35.5, -12, Math.toRadians(180)))
+                                .lineTo(new Vector2d(-60, -12))
+                                .lineTo(new Vector2d(-10, -12))
+                                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
+                                .lineToSplineHeading(new Pose2d(-10, -12, Math.toRadians(180)))
+                                .lineTo(new Vector2d(-60, -12))
+
 //                                .forward(55)
 //                                .back(30)
 //                                .turn(-.75,39,39)
@@ -29,29 +48,22 @@ public class MeepMeepTesting {
 //                                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
 //                                .lineTo(new Vector2d(-60, -12))
 
-
-                                .lineTo(new Vector2d(-10, -13))
-                                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
-                                .lineToSplineHeading(new Pose2d(-10, -13, Math.toRadians(180)))
-                                .lineTo(new Vector2d(-60, -12))
-
-
-                                .lineTo(new Vector2d(-59, -34))
-
-
-
-
-
-
-
+//
+//                                .lineTo(new Vector2d(-10, -13))
+//                                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
+//                                .lineToSplineHeading(new Pose2d(-10, -13, Math.toRadians(180)))
+//                                .lineTo(new Vector2d(-60, -12))
+//
+//
+//                                .lineTo(new Vector2d(-59, -34))
 
 
                                 //.lineTo(new Vector2d(-35.5,-19))
 
 
                                 //just parking code
-                                .lineTo(new Vector2d(-35, -35))
-                                .strafeTo(new Vector2d(-60, -35))
+//                                .lineTo(new Vector2d(-35, -35))
+//                                .strafeTo(new Vector2d(-60, -35))
 
 
 
