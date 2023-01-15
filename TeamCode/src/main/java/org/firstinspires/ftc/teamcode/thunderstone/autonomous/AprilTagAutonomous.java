@@ -103,42 +103,42 @@ public class AprilTagAutonomous extends LinearOpMode
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
-        //testing trajectories lily wrote:
+        //testing trajectories lily wrote: & edited by sophie :)
+        //wanted to use vars but i dont think it would work
+//        Pose2d currentPose = new Pose2d(-35,-61.5, Math.toRadians(90));
+//        Vector2d currentVector = new Vector2d(-35.5, -7.3);
+
+        //push cone out of the way
         Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35.5, -7.3))
-//                .lineTo(new Vector2d(-35.5, -36.3))
-//                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
-//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
-//                .lineTo(new Vector2d(-60, -12))
                 .build();
 
+        //move back near mid junc to prepare to score
         Trajectory trL2 = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -7.3, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35.5, -36.3))
-//                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
-//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
-//                .lineTo(new Vector2d(-60, -12))
                 .build();
 
+        //turn and move to mid junc while scoring
         Trajectory trL3 = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -36.3, Math.toRadians(90)))
                 .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
-//                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
-//                .lineTo(new Vector2d(-60, -12))
                 .build();
+
+        //move back out of the way and rotate
         Trajectory trL4 = myLocalizer.trajectoryBuilder(new Pose2d(-30, -30, Math.toRadians(45)))
-                .lineToSplineHeading(new Pose2d(-39.1, -10, Math.toRadians(180)))
-//                .lineTo(new Vector2d(-60, -12))
-                .build();
-        Trajectory trL5 = myLocalizer.trajectoryBuilder(new Pose2d(-39.1, -10, Math.toRadians(180)))
-                .lineTo(new Vector2d(-60, -12))
+                .lineToSplineHeading(new Pose2d(-35.5, -36.3, Math.toRadians(90)))
                 .build();
 
-        Trajectory trL6 = myLocalizer.trajectoryBuilder(new Pose2d(-60, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-10, -13))
-//                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
-//                .lineToSplineHeading(new Pose2d(-10, -13, Math.toRadians(180)))
-//                .lineTo(new Vector2d(-60, -12))
+        //move forward to clear junctions before rotating
+        Trajectory trL5 = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -36.3, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35.5, -20))
                 .build();
 
+        //turn left 90 while moving to prepare for the stack
+        Trajectory trL6 = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -20, Math.toRadians(90)))
+                .lineToSplineHeading(new Pose2d(-35.5, -12, Math.toRadians(180)))
+                .build();
+
+        //paused changes here
         Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-10, -13, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
 //                .lineToSplineHeading(new Pose2d(-10, -13, Math.toRadians(180)))
