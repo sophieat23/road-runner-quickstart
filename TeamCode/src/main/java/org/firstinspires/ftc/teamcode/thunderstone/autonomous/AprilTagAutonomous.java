@@ -36,7 +36,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "6010 April Tag Autonomous")
+@Autonomous(name = "6010 April Tag Autonomous - USE THIS")
 public class AprilTagAutonomous extends LinearOpMode
 {
     OpenCvCamera camera;
@@ -157,15 +157,17 @@ public class AprilTagAutonomous extends LinearOpMode
                 .lineTo(new Vector2d(-59, -34))
                 .build();
 
-
-
-
-        Trajectory parkLeft1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+        //simple parking from start trajectories
+        Trajectory moveToPark = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -35))
                 .build();
-        Trajectory parkLeft2 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-60, -35))
+        Trajectory strafeLeft = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-63, -35))
                 .build();
+        Trajectory strafeRight = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-10, -35))
+                .build();
+
         Trajectory tr1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -7.3))
 //                .forward(55)
@@ -393,7 +395,7 @@ public class AprilTagAutonomous extends LinearOpMode
 
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive()) {sleep(20);}
+//        while (opModeIsActive()) {sleep(20);}
     }
 
     void tagToTelemetry(AprilTagDetection detection)
