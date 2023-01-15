@@ -161,22 +161,15 @@ public class AprilTagAutonomous extends LinearOpMode
         Trajectory moveToPark = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -35))
                 .build();
-        Trajectory strafeLeft = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
+        Trajectory leftPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
                 .strafeTo(new Vector2d(-63, -35))
                 .build();
-        Trajectory strafeRight = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
+        Trajectory rightPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
                 .strafeTo(new Vector2d(-10, -35))
                 .build();
 
-        Trajectory tr1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
-                .lineTo(new Vector2d(-35, -7.3))
-//                .forward(55)
-                .build();
-        Trajectory tr2 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -7.3, Math.toRadians(90)))
-                .lineTo(new Vector2d(-35, -36.3))
-//                .back(30)
-                .build();
 
+        //joshes trajectories
         Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
                 .lineToSplineHeading(new Pose2d(-34, -16, Math.toRadians(90)))
                 .splineTo(new Vector2d(-29, -11), Math.toRadians(45))
@@ -321,12 +314,12 @@ public class AprilTagAutonomous extends LinearOpMode
                 myLocalizer.followTrajectory(trL8);
                 myLocalizer.followTrajectory(trL9);
             }
-            myLocalizer.followTrajectory(trL10);
+            //unnecessary bc already in correct zone
+//            myLocalizer.followTrajectory(trL10);
 
-//            //SOPHIE's
-//            // do something - traj
-//            myLocalizer.followTrajectory(parkLeft1);
-//            myLocalizer.followTrajectory(parkLeft2);
+//            //SOPHIE's code to simply park
+//            myLocalizer.followTrajectory(moveToPark);
+//            myLocalizer.followTrajectory(leftPark);
 
             //JOSH's
 //                myLocalizer.followTrajectory(tr1);
@@ -343,7 +336,7 @@ public class AprilTagAutonomous extends LinearOpMode
         else if(tagOfInterest == null || tagOfInterest.id == MIDDLE)
         //if theres no tag detected or if its the middle one so tag = 2, middle park
         {
-            // do something else - traj
+            myLocalizer.followTrajectory(moveToPark);
 //                myLocalizer.followTrajectory(traj1);
 //                myLocalizer.followTrajectory(traj2);
 //                myLocalizer.followTrajectory(traj3);
@@ -355,7 +348,8 @@ public class AprilTagAutonomous extends LinearOpMode
         }
         else if(tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
         {
-            // do something else - traj
+            myLocalizer.followTrajectory(moveToPark);
+            myLocalizer.followTrajectory(rightPark);
 //                myLocalizer.followTrajectory(traj1);
 //                myLocalizer.followTrajectory(traj2);
 //                myLocalizer.followTrajectory(traj3);
@@ -364,6 +358,9 @@ public class AprilTagAutonomous extends LinearOpMode
 //                myLocalizer.followTrajectory(traj6);
 //                myLocalizer.followTrajectory(traj7);
 //                myLocalizer.followTrajectory(zone1);
+        } else {
+            //auton fails, cant recognize qrcode, just move forward to middle zone
+            myLocalizer.followTrajectory(moveToPark);
         }
         //old stuff from the example, not used in video
 //        if(tagOfInterest == null)
