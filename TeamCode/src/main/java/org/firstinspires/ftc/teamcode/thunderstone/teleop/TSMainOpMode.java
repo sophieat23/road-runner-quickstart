@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 //do we need an import for the gamepad?
 
 @TeleOp(name = "6010 PowerPlay TeleOp", group = "6010 TeleOps")
@@ -76,6 +78,8 @@ public class TSMainOpMode extends LinearOpMode {
         BRMotor = 0;
         FLMotor = 0;
         FRMotor = 0;
+
+        SampleMecanumDrive myLocalizer = new SampleMecanumDrive(hardwareMap);
 //    }
 //    public void loop() {
 
@@ -249,10 +253,12 @@ public class TSMainOpMode extends LinearOpMode {
                 frontRight.setPower(FRMotor);
 
                 //rotating 90 degrees
+                //need to test this!
                 if (gamepad1.left_bumper) { //rotate to the left 90
                     //we may need to switch to using encoder to do this, or find a way to use roadrunner
+                    myLocalizer.turn(Math.toRadians(-90));
                 } else if (gamepad1.right_bumper) { //rotate to the right 90
-
+                    myLocalizer.turn(Math.toRadians(90));
                 }
 
                 //checking height
