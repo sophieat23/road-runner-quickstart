@@ -19,38 +19,38 @@ public class MeepMeepTesting {
                                 //push cone out of the way
                                 .lineTo(new Vector2d(-35.5, -7.3))
                                 //move back near low junc to prepare to score
-                                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+//                                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
                                 //turn and move to low junc while scoring
-                                .lineToSplineHeading(new Pose2d(-41, -16, Math.toRadians(225)))
+//                                .lineToSplineHeading(new Pose2d(-41, -16, Math.toRadians(225)))
                                 //angle back to face cone stack
-                                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+//                                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
 
 
                                 //move back near mid junc to prepare to score
-//                                .lineTo(new Vector2d(-35.5, -36.3))
+                                .lineTo(new Vector2d(-35.5, -36.3))
                                 //turn and move to mid junc while scoring
-//                                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
+                                .lineToSplineHeading(new Pose2d(-30, -30, Math.toRadians(45)))
                                 //move back out of the way and rotate
-//                                .lineToSplineHeading(new Pose2d(-35.5, -36.3, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(-35.5, -36.3, Math.toRadians(90)))
                                 //move forward to clear junctions before rotating
-//                                .lineTo(new Vector2d(-35.5, -20))
+                                .lineTo(new Vector2d(-35.5, -20))
                                 //turn left 90 while moving to prepare for the stack
-//                                .lineToSplineHeading(new Pose2d(-35.5, -12, Math.toRadians(180)))
+                                .lineToSplineHeading(new Pose2d(-35.5, -12, Math.toRadians(180)))
 
                                 //execute these lines x4
                                 //move forward to intake a cone
-                                .lineTo(new Vector2d(-60, -12))
+                                .lineTo(new Vector2d(-63, -12))
                                 //move backward to prepare to outtake
-                                .lineTo(new Vector2d(-34, -12))
-//                                .lineTo(new Vector2d(-10, -12))
+//                                .lineTo(new Vector2d(-34, -12))
+                                .lineTo(new Vector2d(-10, -12))
                                 //angle onto the low junc
-                                .lineToSplineHeading(new Pose2d(-41, -16, Math.toRadians(225)))
+//                                .lineToSplineHeading(new Pose2d(-41, -16, Math.toRadians(225)))
                                 //angle onto the mid junc
-//                                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
+                                .lineToSplineHeading(new Pose2d(-17, -16, Math.toRadians(225)))
                                 //angle back to face cone stack/ 2nd parking zone
-                                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+//                                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
                                 //angling back for mid junc
-//                                .lineToSplineHeading(new Pose2d(-10, -12, Math.toRadians(180)))
+                                .lineToSplineHeading(new Pose2d(-10, -12, Math.toRadians(180)))
 
                                 //OR move back to the 1st parking zone
                                 .lineTo(new Vector2d(-59, -12))

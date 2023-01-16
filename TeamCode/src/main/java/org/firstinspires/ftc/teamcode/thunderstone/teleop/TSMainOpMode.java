@@ -298,6 +298,7 @@ public class TSMainOpMode extends LinearOpMode {
                     currentH = 800;
                     lift.setTargetPosition(currentH);
                     lift.setPower(.5);
+                    //lift.setVelocity();
 
                     telemetry.addData("lift velocity", lift.getVelocity());
 
@@ -305,6 +306,7 @@ public class TSMainOpMode extends LinearOpMode {
                     currentH = 500; //might need to change this, temp val
                     lift.setTargetPosition(currentH);
                     lift.setPower(.5);
+                    //lift.setVelocity();
 
                     telemetry.addData("lift velocity", lift.getVelocity());
                 } else if (gamepad1.b){ //low junction preset
@@ -312,6 +314,7 @@ public class TSMainOpMode extends LinearOpMode {
                     currentH = 300;
                     lift.setTargetPosition(currentH);
                     lift.setPower(.5);
+                    //lift.setVelocity();
 
                     telemetry.addData("lift velocity", lift.getVelocity());
 

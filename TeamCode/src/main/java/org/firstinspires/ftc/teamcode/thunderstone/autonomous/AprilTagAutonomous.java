@@ -26,6 +26,10 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -68,6 +72,13 @@ public class AprilTagAutonomous extends LinearOpMode
     boolean prgrmran = false; //unnecessary to roadrunner but i have this so the program only runs once later
     //josh why is it spelled like this
     public static double DISTANCE = 14;//is in feet
+
+    private CRServo leftServo;
+    private CRServo rightServo;
+    private DcMotorEx lift;
+
+    private double DR4BMotor;
+
     @Override
     public void runOpMode()
     {
@@ -103,6 +114,24 @@ public class AprilTagAutonomous extends LinearOpMode
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
+        lift = hardwareMap.get(DcMotorEx.class, "DR4B");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        int currentH= lift.getCurrentPosition();
+        lift.setTargetPosition(currentH);
+
+        boolean wasHigh;
+        boolean wasMed;
+
+        DR4BMotor = 0;
+
+        lift.setDirection(DcMotorEx.Direction.REVERSE);
+        lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+        rightServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftServo.setDirection(DcMotorSimple.Direction.REVERSE);
+
         //wanted to use vars but i dont think it would work
 //        Pose2d currentPose = new Pose2d(-35,-61.5, Math.toRadians(90));
 //        Vector2d currentVector = new Vector2d(-35.5, -7.3);
@@ -132,7 +161,7 @@ public class AprilTagAutonomous extends LinearOpMode
 
         //move forward to intake a cone EITHER junc
         Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-60, -12))
+                .lineTo(new Vector2d(-63, -12))
                 .build();
 
         //move backward from cone stack
@@ -245,21 +274,46 @@ public class AprilTagAutonomous extends LinearOpMode
         }
 
         //general auton path with or without sighting zone
+        lift.setTargetPosition(80); //above the cone
+        lift.setVelocity(900); //arbitrary val for now
         myLocalizer.followTrajectory(trL1); //move forward to push cone
+        lift.setTargetPosition(300); //height for low junc
+        lift.setVelocity(900);
         myLocalizer.followTrajectory(trL2Low); //move back and face cone stack
         myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+        leftServo.setPower(-1);
+        rightServo.setPower(1);
         myLocalizer.followTrajectory(trL456Park2Low); //facing cone stack, in the middle zone
-
-        for (int i = 0; i <= 4; i++) { //executes 4 times for 4 cones
+        leftServo.setPower(0);
+        rightServo.setPower(0);
+        int stackPos = 250; //starting stack height
+        for (int i = 0; i < 4; i++) { //executes 4 times for 4 cones
+            lift.setTargetPosition(stackPos);
+            lift.setVelocity(900);
             myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
+            //intake a cone
+            leftServo.setPower(1);
+            rightServo.setPower(-1);
+            sleep(1000); //1 second?
+            leftServo.setPower(0);
+            rightServo.setPower(0);
+            lift.setTargetPosition(300);
+            lift.setVelocity(900);
             myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
             myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+            leftServo.setPower(-1);
+            rightServo.setPower(1);
             myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
+            stackPos -= 30; //decreases as each cone gets removed
         }
 
         if(tagOfInterest.id == LEFT) //tag = 1 detected, left side park
         {
+            lift.setTargetPosition(70); //above cones in case we bump into stuff
+            lift.setVelocity(900);
             myLocalizer.followTrajectory(trLPark1Low);
+            lift.setTargetPosition(0); //lower lift
+            lift.setVelocity(600);
 //            myLocalizer.followTrajectory(trL1);
 //            myLocalizer.followTrajectory(trL2);
 //            myLocalizer.followTrajectory(trL3);
@@ -294,6 +348,8 @@ public class AprilTagAutonomous extends LinearOpMode
         //if theres no tag detected or if its the middle one so tag = 2, middle park
         {
             //do nothing bc its already parked here
+            lift.setTargetPosition(0); //lower lift
+            lift.setVelocity(600);
 //            myLocalizer.followTrajectory(moveToPark);
 //                myLocalizer.followTrajectory(traj1);
 //                myLocalizer.followTrajectory(traj2);
@@ -306,7 +362,11 @@ public class AprilTagAutonomous extends LinearOpMode
         }
         else if(tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
         {
+            lift.setTargetPosition(70); //above cones in case we bump into stuff
+            lift.setVelocity(900);
             myLocalizer.followTrajectory(trLPark3Low);
+            lift.setTargetPosition(0); //lower lift
+            lift.setVelocity(600);
 //            myLocalizer.followTrajectory(moveToPark);
 //            myLocalizer.followTrajectory(rightPark);
 //                myLocalizer.followTrajectory(traj1);
@@ -319,6 +379,8 @@ public class AprilTagAutonomous extends LinearOpMode
 //                myLocalizer.followTrajectory(zone1);
         } else {
             //already accounted for
+            lift.setTargetPosition(0); //lower lift
+            lift.setVelocity(600);
             //auton fails, cant recognize qrcode, just move forward to middle zone
 //            myLocalizer.followTrajectory(moveToPark);
         }
