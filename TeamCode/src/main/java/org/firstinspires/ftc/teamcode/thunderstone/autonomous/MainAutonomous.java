@@ -37,7 +37,7 @@ public class MainAutonomous extends LinearOpMode {
     public static double DISTANCE = 14;//is in feet
     boolean prgrmran = false; //unecesary to roadrunner but i have this so the programe only runs once later
 
-    private AprilTagAutonomous apriltag;
+    private AprilTagAutonLeft apriltag;
 
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");

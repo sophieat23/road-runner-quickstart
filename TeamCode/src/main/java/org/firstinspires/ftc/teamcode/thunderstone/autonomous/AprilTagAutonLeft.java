@@ -40,8 +40,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "6010 April Tag Autonomous - USE THIS")
-public class AprilTagAutonomous extends LinearOpMode
+@Autonomous(name = "6010 April Tag Left Autonomous")
+public class AprilTagAutonLeft extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -134,17 +134,6 @@ public class AprilTagAutonomous extends LinearOpMode
         rightServo.setDirection(DcMotorSimple.Direction.REVERSE);
         leftServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        String side = "no";
-        telemetry.addData("Select left or right side start with the arrow buttons. " +
-                "This must be done before hitting start!", " ");
-        telemetry.update();
-        if (gamepad1.dpad_left) {
-            side = "left";
-        } else if (gamepad1.dpad_right) {
-            side = "right";
-        }
-        telemetry.addData(side + " side selected.", " ");
-        telemetry.update();
 
         //wanted to use vars but i dont think it would work
 //        Pose2d currentPose = new Pose2d(-35,-61.5, Math.toRadians(90));
@@ -152,34 +141,34 @@ public class AprilTagAutonomous extends LinearOpMode
 
         //push cone out of the way EITHER junc
         Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
-                .lineTo(new Vector2d(-35.5, -7.3))
+                .lineTo(new Vector2d(-35.5, -6.5))
                 .build();
 
         //LOW JUNCTION parts 2-6
 
         //move back near low junc to prepare to score & face cone stack
-        Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -7.3, Math.toRadians(90)))
+        Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
                 .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
                 .build();
 
         //WITHIN LOOP:
         //turn and move to low junc while scoring
         Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-41, -16, Math.toRadians(225)))
+                .lineToSplineHeading(new Pose2d(-43, -16, Math.toRadians(225)))
                 .build();
 
         //angle back to face cone stack LOW junc after scoring
-        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-41, -16, Math.toRadians(225)))
+        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
                 .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
                 .build();
 
         //move forward to intake a cone EITHER junc
         Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-63, -12))
+                .lineTo(new Vector2d(-64, -12))
                 .build();
 
         //move backward from cone stack
-        Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-60, -12, Math.toRadians(180)))
+        Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-64, -12, Math.toRadians(180)))
                 .lineTo(new Vector2d(-34, -12))
                 .build();
 
@@ -214,57 +203,61 @@ public class AprilTagAutonomous extends LinearOpMode
         {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if(currentDetections.size() != 0)
-            {
-                boolean tagFound = false;
+            int state = 0;
+            String side = "no";
+            telemetry.addData("Select left or right side start with the arrow buttons. " +
+                    "This must be done before hitting start!", " ");
+            telemetry.update();
+            if (gamepad1.dpad_left) {
+                side = "left";
+                state = 1;
+            } else if (gamepad1.dpad_right) {
+                side = "right";
+                state = 1;
+            } else {
+                state = 1;
+            }
+            telemetry.addData(side + " side selected.", " ");
+            telemetry.update();
 
-                for(AprilTagDetection tag : currentDetections)
-                {
-                    if(tag.id == LEFT ||tag.id == MIDDLE ||tag.id == RIGHT)
-                    {
-                        tagOfInterest = tag;
-                        tagFound = true;
-                        break;
+            if (state == 1) {
+                if (currentDetections.size() != 0) {
+                    boolean tagFound = false;
+
+                    for (AprilTagDetection tag : currentDetections) {
+                        if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                            tagOfInterest = tag;
+                            tagFound = true;
+                            break;
+                        }
                     }
-                }
 
-                if(tagFound)
-                {
-                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                    tagToTelemetry(tagOfInterest);
-                }
-                else
-                {
+                    if (tagFound) {
+                        telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                        tagToTelemetry(tagOfInterest);
+                    } else {
+                        telemetry.addLine("Don't see tag of interest :(");
+
+                        if (tagOfInterest == null) {
+                            telemetry.addLine("(The tag has never been seen)");
+                        } else {
+                            telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                            tagToTelemetry(tagOfInterest);
+                        }
+                    }
+
+                } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
-                    if(tagOfInterest == null)
-                    {
+                    if (tagOfInterest == null) {
                         telemetry.addLine("(The tag has never been seen)");
-                    }
-                    else
-                    {
+                    } else {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
-                }
 
+                }
             }
-            else
-            {
-                telemetry.addLine("Don't see tag of interest :(");
-
-                if(tagOfInterest == null)
-                {
-                    telemetry.addLine("(The tag has never been seen)");
-                }
-                else
-                {
-                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                    tagToTelemetry(tagOfInterest);
-                }
-
-            }
-
             telemetry.update();
             sleep(20);
         }
@@ -288,7 +281,9 @@ public class AprilTagAutonomous extends LinearOpMode
         }
 
 
-        if (side.equals("left")) {
+//        String side = "left";
+
+//        if (side.equals("left")) {
             //general auton path with or without sighting zone
             lift.setTargetPosition(80); //above the cone
             lift.setVelocity(900); //arbitrary val for now
@@ -299,18 +294,19 @@ public class AprilTagAutonomous extends LinearOpMode
             myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
             leftServo.setPower(-1);
             rightServo.setPower(1);
+            sleep(1000);
             myLocalizer.followTrajectory(trL456Park2Low); //facing cone stack, in the middle zone
             leftServo.setPower(0);
             rightServo.setPower(0);
             int stackPos = 250; //starting stack height
-            for (int i = 0; i < 4; i++) { //executes 4 times for 4 cones
+            for (int i = 0; i < 3; i++) { //executes 3 times for 3 cones for now
                 lift.setTargetPosition(stackPos);
                 lift.setVelocity(900);
                 myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
                 //intake a cone
                 leftServo.setPower(1);
                 rightServo.setPower(-1);
-                sleep(1000); //1 second?
+                sleep(500); //1 second?
                 leftServo.setPower(0);
                 rightServo.setPower(0);
                 lift.setTargetPosition(300);
@@ -319,6 +315,7 @@ public class AprilTagAutonomous extends LinearOpMode
                 myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
                 leftServo.setPower(-1);
                 rightServo.setPower(1);
+                sleep(1000);
                 myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
                 stackPos -= 30; //decreases as each cone gets removed
             }
@@ -398,22 +395,22 @@ public class AprilTagAutonomous extends LinearOpMode
                 //auton fails, cant recognize qrcode, just move forward to middle zone
 //            myLocalizer.followTrajectory(moveToPark);
             }
-        }
+//        }
 
-        if (side.equals("right")) {
+//        if (side.equals("right")) {
             //add all the trajectories here for if we start autonomous on the right side
             //should be the same y coordinates but different x
 
-        }
-        else { //left/right side was never selected, then move to park
-            myLocalizer.followTrajectory(moveToPark);
-            if (tagOfInterest.id == LEFT) {
-                myLocalizer.followTrajectory(leftPark);
-            }
-            else if (tagOfInterest.id == RIGHT) {
-                myLocalizer.followTrajectory(rightPark);
-            }
-        }
+//        }
+//        else { //left/right side was never selected, then move to park
+//            myLocalizer.followTrajectory(moveToPark);
+//            if (tagOfInterest.id == LEFT) {
+//                myLocalizer.followTrajectory(leftPark);
+//            }
+//            else if (tagOfInterest.id == RIGHT) {
+//                myLocalizer.followTrajectory(rightPark);
+//            }
+//        }
 
         //old stuff from the example, not used in video
 //        if(tagOfInterest == null)
