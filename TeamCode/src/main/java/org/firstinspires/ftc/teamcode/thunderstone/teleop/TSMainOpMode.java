@@ -256,9 +256,10 @@ public class TSMainOpMode extends LinearOpMode {
                 //need to test this!
                 if (gamepad1.left_bumper) { //rotate to the left 90
                     //we may need to switch to using encoder to do this, or find a way to use roadrunner
-                    myLocalizer.turn(Math.toRadians(-90));
-                } else if (gamepad1.right_bumper) { //rotate to the right 90
+//                    myLocalizer.get
                     myLocalizer.turn(Math.toRadians(90));
+                } else if (gamepad1.right_bumper) { //rotate to the right 90
+                    myLocalizer.turn(Math.toRadians(-90));
                 }
 
                 //checking height
