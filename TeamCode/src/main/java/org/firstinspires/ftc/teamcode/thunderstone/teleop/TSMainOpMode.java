@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp(name = "6010 PowerPlay TeleOp", group = "6010 TeleOps")
 public class TSMainOpMode extends LinearOpMode {
-    private double slow = 1; //when slow = 1 there is no slow
+    private double slow = .8; //when slow = 1 there is no slow
     private double slowR = .5; //slow for rotating
     private double y = 0;
     private double equationY = 0;
