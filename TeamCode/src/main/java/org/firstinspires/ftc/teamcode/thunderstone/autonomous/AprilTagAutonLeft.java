@@ -39,6 +39,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 @Autonomous(name = "6010 April Tag Left Autonomous")
 public class AprilTagAutonLeft extends LinearOpMode
@@ -143,6 +144,12 @@ public class AprilTagAutonLeft extends LinearOpMode
         Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35.5, -6.5))
                 .build();
+        //trajectiores that end in j(josh calling card)
+        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .splineTo(new Vector2d(-35.5,-6.5),Math.toRadians(90))
+                .build();
+
+
 
         //LOW JUNCTION parts 2-6
 
@@ -151,15 +158,25 @@ public class AprilTagAutonLeft extends LinearOpMode
                 .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
                 .build();
 
+        Trajectory trL2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
+                .splineTo(new Vector2d(-34,-12),Math.toRadians(180))
+                .build();
+
         //WITHIN LOOP:
         //turn and move to low junc while scoring
         Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(-43, -16, Math.toRadians(225)))
                 .build();
+        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
+                .splineTo(new Vector2d(-43, -16), Math.toRadians(225))
+                .build();
 
         //angle back to face cone stack LOW junc after scoring
         Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
                 .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+                .build();
+        Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
+                .splineTo(new Vector2d(-34, -12), Math.toRadians(180))
                 .build();
 
         //move forward to intake a cone EITHER junc
@@ -285,49 +302,52 @@ public class AprilTagAutonLeft extends LinearOpMode
 
 //        if (side.equals("left")) {
             //general auton path with or without sighting zone
-            lift.setTargetPosition(80); //above the cone
-            lift.setVelocity(900); //arbitrary val for now
-            myLocalizer.followTrajectory(trL1); //move forward to push cone
-            lift.setTargetPosition(300); //height for low junc
-            lift.setVelocity(900);
-            myLocalizer.followTrajectory(trL2Low); //move back and face cone stack
-            myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+//            lift.setTargetPosition(80); //above the cone
+//            lift.setVelocity(900); //arbitrary val for now
+            myLocalizer.followTrajectory(trL1j); //move forward to push cone
+//            lift.setTargetPosition(300); //height for low junc
+//            lift.setVelocity(900);
+            myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
+            myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
             leftServo.setPower(-1);
             rightServo.setPower(1);
             sleep(1000);
-            myLocalizer.followTrajectory(trL456Park2Low); //facing cone stack, in the middle zone
+            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
             leftServo.setPower(0);
             rightServo.setPower(0);
-            int stackPos = 250; //starting stack height
-            for (int i = 0; i < 3; i++) { //executes 3 times for 3 cones for now
-                lift.setTargetPosition(stackPos);
-                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
-                //intake a cone
-                leftServo.setPower(1);
-                rightServo.setPower(-1);
-                sleep(500); //1 second?
-                leftServo.setPower(0);
-                rightServo.setPower(0);
-                lift.setTargetPosition(300);
-                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
-                myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
-                leftServo.setPower(-1);
-                rightServo.setPower(1);
-                sleep(1000);
-                myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
-                stackPos -= 30; //decreases as each cone gets removed
-            }
+//            int stackPos = 250; //starting stack height
+//            for (int i = 0; i < 3; i++) { //executes 3 times for 3 cones for now
+//                lift.setTargetPosition(stackPos);
+//                lift.setVelocity(900);
+//                myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
+//                //intake a cone
+//                leftServo.setPower(1);
+//                rightServo.setPower(-1);
+//                sleep(500); //1 second?
+//                leftServo.setPower(0);
+//                rightServo.setPower(0);
+//                lift.setTargetPosition(300);
+//                lift.setVelocity(900);
+//                myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
+//                myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+//                leftServo.setPower(-1);
+//                rightServo.setPower(1);
+//                sleep(1000);
+//                myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
+//                stackPos -= 30; //decreases as each cone gets removed
+//            }
 
             if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
             {
-                lift.setTargetPosition(70); //above cones in case we bump into stuff
-                lift.setVelocity(900);
+//                lift.setTargetPosition(70); //above cones in case we bump into stuff
+//                lift.setVelocity(900);
                 myLocalizer.followTrajectory(trLPark1Low);
-                lift.setTargetPosition(0); //lower lift
-                lift.setVelocity(600);
-//            myLocalizer.followTrajectory(trL1);
+//                lift.setTargetPosition(0); //lower lift
+//                lift.setVelocity(600);
+
+
+
+                //            myLocalizer.followTrajectory(trL1);
 //            myLocalizer.followTrajectory(trL2);
 //            myLocalizer.followTrajectory(trL3);
 //            myLocalizer.followTrajectory(trL4);

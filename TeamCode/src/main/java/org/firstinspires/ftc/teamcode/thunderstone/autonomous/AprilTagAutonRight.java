@@ -20,7 +20,7 @@ package org.firstinspires.ftc.teamcode.thunderstone.autonomous;
         import java.util.ArrayList;
 
 @Autonomous(name = "6010 April Tag Right Autonomous UNFINISHED")
-public class AprilTagAutonRight extends LinearOpMode {
+public class    AprilTagAutonRight extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 

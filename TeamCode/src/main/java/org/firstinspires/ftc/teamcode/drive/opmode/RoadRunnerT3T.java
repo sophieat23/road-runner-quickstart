@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.message.redux.StopOpMode;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
@@ -28,53 +29,59 @@ public class RoadRunnerT3T extends LinearOpMode {
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
         Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-35, -30, Math.toRadians(0)))
-
-                //.lineToSplineHeading(new Pose2d(-34, -16, Math.toRadians(90)))
-                //.splineTo(new Vector2d(-29, -11), Math.toRadians(45))
+                .splineTo(new Vector2d(-34,-60),Math.toRadians(90))
+               // .lineToSplineHeading(new Pose2d(-34, -16, Math.toRadians(90)))
+                //.lineTo(new Vector2d(-35,-60))
                 //^this would simulate going infornt of the pole and raising the
                 .build();
+        //make34 if this works
 
-        Trajectory traj2 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-29, -5, Math.toRadians(45)))
-                //^go from in front of pole to atop
-                .build();
-
-        Trajectory traj3 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-31, -11, Math.toRadians(45)))
-                //^back up
-                .build();
-
-        Trajectory traj4 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
-                //go in front of cones for pickup
-                .build();
-
-        Trajectory traj5 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-60.5,-12, Math.toRadians(180)))
-                //go atop cones
-                .build();
-        //pickup cone
-
-        Trajectory traj6 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
-                .build();
-        //back up ^
-        //lower lift - do- write that
-
-        Trajectory traj7 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-29, -11, Math.toRadians(45)))
-                .build();
-
-        Trajectory zone1 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(90)))
-                .build();
-        Trajectory zone2 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-34, -11, Math.toRadians(90)))
-                .build();
-        Trajectory zone3 = myLocalizer.trajectoryBuilder(new Pose2d())
-                .lineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(90)))
-                .build();
+//        Trajectory traj1half = myLocalizer.trajectoryBuilder(new Pose2d())
+//                   .splineTo(new Vector2d(-29, -11), Math.toRadians(45))
+//                //.lineTo(new Pose2d(-29,-11))
+//                //^this would simulate going infornt of the pole and raising the
+//                .build();
+//
+//        Trajectory traj2 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-29, -5, Math.toRadians(45)))
+//                //^go from in front of pole to atop
+//                .build();
+//
+//        Trajectory traj3 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-31, -11, Math.toRadians(45)))
+//                //^back up
+//                .build();
+//
+//        Trajectory traj4 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
+//                //go in front of cones for pickup
+//                .build();
+//
+//        Trajectory traj5 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-60.5,-12, Math.toRadians(180)))
+//                //go atop cones
+//                .build();
+//        //pickup cone
+//
+//        Trajectory traj6 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-58.5,-12, Math.toRadians(180)))
+//                .build();
+//        //back up ^
+//        //lower lift - do- write that
+//
+//        Trajectory traj7 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-29, -11, Math.toRadians(45)))
+//                .build();
+//
+//        Trajectory zone1 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(90)))
+//                .build();
+//        Trajectory zone2 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-34, -11, Math.toRadians(90)))
+//                .build();
+//        Trajectory zone3 = myLocalizer.trajectoryBuilder(new Pose2d())
+//                .lineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(90)))
+//                .build();
         waitForStart();
 
 
@@ -97,6 +104,8 @@ public class RoadRunnerT3T extends LinearOpMode {
 //            prgrmran = true;
 
             myLocalizer.followTrajectory(traj1);
+           // myLocalizer.followTrajectory(traj2);
+            stop();
         }
     }
 }
