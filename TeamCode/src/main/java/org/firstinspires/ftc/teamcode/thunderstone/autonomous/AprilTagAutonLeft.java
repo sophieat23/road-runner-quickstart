@@ -220,24 +220,24 @@ public class AprilTagAutonLeft extends LinearOpMode
         {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            int state = 0;
-            String side = "no";
-            telemetry.addData("Select left or right side start with the arrow buttons. " +
-                    "This must be done before hitting start!", " ");
-            telemetry.update();
-            if (gamepad1.dpad_left) {
-                side = "left";
-                state = 1;
-            } else if (gamepad1.dpad_right) {
-                side = "right";
-                state = 1;
-            } else {
-                state = 1;
-            }
-            telemetry.addData(side + " side selected.", " ");
-            telemetry.update();
+//            int state = 0;
+//            String side = "no";
+//            telemetry.addData("Select left or right side start with the arrow buttons. " +
+//                    "This must be done before hitting start!", " ");
+//            telemetry.update();
+//            if (gamepad1.dpad_left) {
+//                side = "left";
+//                state = 1;
+//            } else if (gamepad1.dpad_right) {
+//                side = "right";
+//                state = 1;
+//            } else {
+//                state = 1;
+//            }
+//            telemetry.addData(side + " side selected.", " ");
+//            telemetry.update();
 
-            if (state == 1) {
+//            if (state == 1) {
                 if (currentDetections.size() != 0) {
                     boolean tagFound = false;
 
@@ -274,7 +274,7 @@ public class AprilTagAutonLeft extends LinearOpMode
                     }
 
                 }
-            }
+//            }
             telemetry.update();
             sleep(20);
         }
@@ -302,40 +302,53 @@ public class AprilTagAutonLeft extends LinearOpMode
 
 //        if (side.equals("left")) {
             //general auton path with or without sighting zone
+        lift.setTargetPosition(0);
+        //might have to lift it so it avoids cone
 //            lift.setTargetPosition(80); //above the cone
 //            lift.setVelocity(900); //arbitrary val for now
             myLocalizer.followTrajectory(trL1j); //move forward to push cone
-//            lift.setTargetPosition(300); //height for low junc
-//            lift.setVelocity(900);
+//
             myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
             myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
+            lift.setTargetPosition(300); //height for low junc
+            lift.setVelocity(900);
             leftServo.setPower(-1);
             rightServo.setPower(1);
             sleep(1000);
+        lift.setTargetPosition(0); //height for low junc
+        lift.setVelocity(900);
+        leftServo.setPower(0);
+        rightServo.setPower(0);
             myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
-            leftServo.setPower(0);
-            rightServo.setPower(0);
-//            int stackPos = 250; //starting stack height
-//            for (int i = 0; i < 3; i++) { //executes 3 times for 3 cones for now
-//                lift.setTargetPosition(stackPos);
-//                lift.setVelocity(900);
-//                myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
-//                //intake a cone
-//                leftServo.setPower(1);
-//                rightServo.setPower(-1);
-//                sleep(500); //1 second?
-//                leftServo.setPower(0);
-//                rightServo.setPower(0);
-//                lift.setTargetPosition(300);
-//                lift.setVelocity(900);
-//                myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
-//                myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
-//                leftServo.setPower(-1);
-//                rightServo.setPower(1);
-//                sleep(1000);
-//                myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
-//                stackPos -= 30; //decreases as each cone gets removed
-//            }
+            int stackPos = 150; //starting stack height
+            for (int i = 0; i < 1; i++) { //just doing once to reduce chance of it going wrong
+                //executes 3 times for 3 cones for now
+                //make this a spline?
+                myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
+                //intake a cone
+                lift.setTargetPosition(stackPos);
+                lift.setVelocity(900);
+                leftServo.setPower(1);
+                rightServo.setPower(-1);
+                sleep(500); //1 second?
+                leftServo.setPower(0);
+                rightServo.setPower(0);
+                lift.setTargetPosition(0);
+                lift.setVelocity(900);
+                myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
+                myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+                lift.setTargetPosition(300); //height for low junc
+                lift.setVelocity(900);
+                leftServo.setPower(-1);
+                rightServo.setPower(1);
+                sleep(1000);
+                lift.setTargetPosition(0); //height for low junc
+                lift.setVelocity(900);
+                leftServo.setPower(0);
+                rightServo.setPower(0);
+                myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
+                stackPos -= 30; //decreases as each cone gets removed
+            }
 
             if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
             {
@@ -345,52 +358,13 @@ public class AprilTagAutonLeft extends LinearOpMode
 //                lift.setTargetPosition(0); //lower lift
 //                lift.setVelocity(600);
 
-
-
-                //            myLocalizer.followTrajectory(trL1);
-//            myLocalizer.followTrajectory(trL2);
-//            myLocalizer.followTrajectory(trL3);
-//            myLocalizer.followTrajectory(trL4);
-//            myLocalizer.followTrajectory(trL5);
-//            for(int i = 0; i <2; i++){
-//                myLocalizer.followTrajectory(trL6);
-//                myLocalizer.followTrajectory(trL7);
-//                myLocalizer.followTrajectory(trL8);
-//                myLocalizer.followTrajectory(trL9);
-//            }
-                //unnecessary bc already in correct zone
-//            myLocalizer.followTrajectory(trL10);
-
-//            //SOPHIE's code to simply park
-//            myLocalizer.followTrajectory(moveToPark);
-//            myLocalizer.followTrajectory(leftPark);
-
-                //JOSH's
-//                myLocalizer.followTrajectory(tr1);
-//                myLocalizer.followTrajectory(tr2);
-//                myLocalizer.followTrajectory(traj1);
-//                myLocalizer.followTrajectory(traj2);
-//                myLocalizer.followTrajectory(traj3);
-//                myLocalizer.followTrajectory(traj4);
-//                myLocalizer.followTrajectory(traj5);
-//                myLocalizer.followTrajectory(traj6);
-//                myLocalizer.followTrajectory(traj7);
-//                myLocalizer.followTrajectory(zone3);
             } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
             //if theres no tag detected or if its the middle one so tag = 2, middle park
             {
                 //do nothing bc its already parked here
                 lift.setTargetPosition(0); //lower lift
                 lift.setVelocity(600);
-//            myLocalizer.followTrajectory(moveToPark);
-//                myLocalizer.followTrajectory(traj1);
-//                myLocalizer.followTrajectory(traj2);
-//                myLocalizer.followTrajectory(traj3);
-//                myLocalizer.followTrajectory(traj4);
-//                myLocalizer.followTrajectory(traj5);
-//                myLocalizer.followTrajectory(traj6);
-//                myLocalizer.followTrajectory(traj7);
-//                myLocalizer.followTrajectory(zone2);
+//
             } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
             {
                 lift.setTargetPosition(70); //above cones in case we bump into stuff
@@ -398,16 +372,7 @@ public class AprilTagAutonLeft extends LinearOpMode
                 myLocalizer.followTrajectory(trLPark3Low);
                 lift.setTargetPosition(0); //lower lift
                 lift.setVelocity(600);
-//            myLocalizer.followTrajectory(moveToPark);
-//            myLocalizer.followTrajectory(rightPark);
-//                myLocalizer.followTrajectory(traj1);
-//                myLocalizer.followTrajectory(traj2);
-//                myLocalizer.followTrajectory(traj3);
-//                myLocalizer.followTrajectory(traj4);
-//                myLocalizer.followTrajectory(traj5);
-//                myLocalizer.followTrajectory(traj6);
-//                myLocalizer.followTrajectory(traj7);
-//                myLocalizer.followTrajectory(zone1);
+//
             } else {
                 //already accounted for
                 lift.setTargetPosition(0); //lower lift
