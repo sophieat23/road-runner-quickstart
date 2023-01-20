@@ -285,6 +285,7 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
 
 //        if (side.equals("left")) {
 
+        myLocalizer.followTrajectory(moveToPark);
         if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
         {
             myLocalizer.followTrajectory(leftPark);
@@ -292,12 +293,12 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
         } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
         //if theres no tag detected or if its the middle one so tag = 2, middle park
         {
-            myLocalizer.followTrajectory(moveToPark);
+
         } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
         {
             myLocalizer.followTrajectory(rightPark);
         } else {
-            myLocalizer.followTrajectory(moveToPark);
+
         }
 
     }
