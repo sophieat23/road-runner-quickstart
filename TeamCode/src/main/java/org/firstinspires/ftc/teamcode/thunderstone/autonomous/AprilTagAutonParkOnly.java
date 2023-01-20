@@ -186,13 +186,12 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
 
         //simple parking from start trajectories
         Trajectory moveToPark = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
-                .lineTo(new Vector2d(-35, -35))
+                .lineTo(new Vector2d(-35, -33))
                 .build();
-        Trajectory leftPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-65, -35))
+        Trajectory leftPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -33, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-65, -33))
                 .build();
-        Trajectory rightPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-35, -35))
+        Trajectory rightPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -33, Math.toRadians(90)))
                 .strafeTo(new Vector2d(-10, -35))
                 .build();
 
@@ -285,6 +284,8 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
 //        String side = "left";
 
 //        if (side.equals("left")) {
+        myLocalizer.followTrajectory(moveToPark);
+        sleep(1000);
 
         if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
         {
@@ -293,12 +294,12 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
         } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
         //if theres no tag detected or if its the middle one so tag = 2, middle park
         {
-            myLocalizer.followTrajectory(moveToPark);
+//            myLocalizer.followTrajectory(moveToPark);
         } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
         {
             myLocalizer.followTrajectory(rightPark);
-        } else if (tagOfInterest == null) {
-            myLocalizer.followTrajectory(moveToPark);
+//        } else if (tagOfInterest == null) {
+//            myLocalizer.followTrajectory(moveToPark);
         }
 
     }

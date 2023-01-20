@@ -306,10 +306,14 @@ public class AprilTagAutonLeft extends LinearOpMode
         //might have to lift it so it avoids cone
 //            lift.setTargetPosition(80); //above the cone
 //            lift.setVelocity(900); //arbitrary val for now
-            myLocalizer.followTrajectory(trL1j); //move forward to push cone
+//            myLocalizer.followTrajectory(trL1j); //move forward to push cone
+            myLocalizer.followTrajectory(trL1);
 //
-            myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
-            myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
+        myLocalizer.followTrajectory(trL2Low); //move back and face cone stack
+        myLocalizer.followTrajectory(trL3Low);
+
+//            myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
+//            myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
             lift.setTargetPosition(300); //height for low junc
             lift.setVelocity(900);
             leftServo.setPower(-1);
@@ -319,15 +323,17 @@ public class AprilTagAutonLeft extends LinearOpMode
         lift.setVelocity(900);
         leftServo.setPower(0);
         rightServo.setPower(0);
-            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
+        myLocalizer.followTrajectory((trL456Park2Low));
+//            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
             int stackPos = 150; //starting stack height
-            for (int i = 0; i < 1; i++) { //just doing once to reduce chance of it going wrong
+            for (int i = 0; i < 0; i++) { //just doing once to reduce chance of it going wrong
                 //executes 3 times for 3 cones for now
                 //make this a spline?
-                myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
-                //intake a cone
                 lift.setTargetPosition(stackPos);
                 lift.setVelocity(900);
+                myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
+                //intake a cone
+                //lower lift - ADD CODE
                 leftServo.setPower(1);
                 rightServo.setPower(-1);
                 sleep(500); //1 second?
