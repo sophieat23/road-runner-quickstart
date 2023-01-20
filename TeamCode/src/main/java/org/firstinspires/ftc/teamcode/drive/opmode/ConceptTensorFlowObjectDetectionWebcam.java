@@ -27,8 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+//this dosent work
 
+//this entire class has nothing to do with roadrunner
+//were just stealing code to try and see how to do camera stuff(getting a camera feed
+//
+
+package org.firstinspires.ftc.teamcode.drive.opmode;
+
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -49,8 +57,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-@Disabled
+@Config
+@Autonomous(group = "drive")
 public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
 
     /*
@@ -61,7 +69,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
     private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
+     private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
 
     private static final String[] LABELS = {
@@ -83,7 +91,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      * and paste it in to your code on the next line, between the double quotes.
      */
     private static final String VUFORIA_KEY =
-            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+            "ASyTbrf/////AAABmU1xl9kyYkzgqZnNkwY5CJAHIwhf+H5QuEBinCI4Dly37BR++0Ge9fIu7wHG3wPOpDelRZ9xaaK9AUoxeBHwIGj4L5ZlfMZDAQoruDiyqgC827H0J0K01ik0S0LI37ME9od3wlk5wGAoscIpnhrA0sUbr7lbBP7ybIhjsQIc4vyEwoGwNaWA5K/zwBsA4YC0DfEgg1RN3keX3GjVI30DEUZqgFGf2T0d8md/uPOfw74p7w/YMpYQbsX9bZCR/IIXYQKBH31ba4dR8E4ju4J9hhRMGgwFaDRQfpWqXTCtMiTVXrOndVynnY6t5QSWrnCk1DwlKcsZks3U4eM6ivV4+YibzCdv8Ij12YWQDYdJx9Sk";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -102,7 +110,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
-        initTfod();
+//        initTfod();
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.
@@ -127,6 +135,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
+                telemetry.update();
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.

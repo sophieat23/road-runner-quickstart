@@ -189,9 +189,10 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
                 .lineTo(new Vector2d(-35, -35))
                 .build();
         Trajectory leftPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-63, -35))
+                .strafeTo(new Vector2d(-65, -35))
                 .build();
         Trajectory rightPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-35, -35))
                 .strafeTo(new Vector2d(-10, -35))
                 .build();
 
