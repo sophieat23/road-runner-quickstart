@@ -234,6 +234,7 @@ public class    AprilTagAutonRight extends LinearOpMode {
 
 
         //general auton path with or without sighting zone
+        lift.setTargetPosition(0);
         lift.setTargetPosition(80); //above the cone
         lift.setVelocity(900); //arbitrary val for now
         myLocalizer.followTrajectory(trL1); //move forward to push cone
@@ -247,7 +248,8 @@ public class    AprilTagAutonRight extends LinearOpMode {
         leftServo.setPower(0);
         rightServo.setPower(0);
         int stackPos = 250; //starting stack height
-        for (int i = 0; i < 4; i++) { //executes 4 times for 4 cones
+        for (int i = 0; i < 1; i++) {
+            //executes 4 times for 4 cones
             lift.setTargetPosition(stackPos);
             lift.setVelocity(900);
             myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake

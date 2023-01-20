@@ -203,24 +203,6 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
         {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            int state = 0;
-            String side = "no";
-            telemetry.addData("Select left or right side start with the arrow buttons. " +
-                    "This must be done before hitting start!", " ");
-            telemetry.update();
-            if (gamepad1.dpad_left) {
-                side = "left";
-                state = 1;
-            } else if (gamepad1.dpad_right) {
-                side = "right";
-                state = 1;
-            } else {
-                state = 1;
-            }
-            telemetry.addData(side + " side selected.", " ");
-            telemetry.update();
-
-            if (state == 1) {
                 if (currentDetections.size() != 0) {
                     boolean tagFound = false;
 
@@ -257,7 +239,7 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
                     }
 
                 }
-            }
+
             telemetry.update();
             sleep(20);
         }
@@ -281,17 +263,14 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
         }
 
 
-//        String side = "left";
 
-//        if (side.equals("left")) {
+        myLocalizer.followTrajectory(moveToPark); //goes forward to middle parking
 
-        myLocalizer.followTrajectory(moveToPark);
         if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
         {
             myLocalizer.followTrajectory(leftPark);
 
-        } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
-        //if theres no tag detected or if its the middle one so tag = 2, middle park
+        } else if (tagOfInterest.id == MIDDLE) //tag = 2, middle park
         {
 
         } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
