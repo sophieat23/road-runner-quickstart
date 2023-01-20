@@ -296,7 +296,7 @@ public class AprilTagAutonParkOnly  extends LinearOpMode
         } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
         {
             myLocalizer.followTrajectory(rightPark);
-        } else {
+        } else if (tagOfInterest == null) {
             myLocalizer.followTrajectory(moveToPark);
         }
 

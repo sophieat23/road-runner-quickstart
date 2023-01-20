@@ -114,35 +114,51 @@ public class    AprilTagAutonRight extends LinearOpMode {
 //        Vector2d currentVector = new Vector2d(-35.5, -7.3);
 
         //push cone out of the way EITHER junc
-        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -61.5, Math.toRadians(90)))
-                .lineTo(new Vector2d(-35.5, -7.3))
+        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .lineTo(new Vector2d(-35.5, -6.5))
                 .build();
+        //trajectiores that end in j(josh calling card)
+        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .splineTo(new Vector2d(-35.5,-6.5),Math.toRadians(90))
+                .build();
+
+
 
         //LOW JUNCTION parts 2-6
 
         //move back near low junc to prepare to score & face cone stack
-        Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -7.3, Math.toRadians(90)))
+        Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
                 .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+                .build();
+
+        Trajectory trL2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
+                .splineTo(new Vector2d(-34,-12),Math.toRadians(180))
                 .build();
 
         //WITHIN LOOP:
         //turn and move to low junc while scoring
         Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-41, -16, Math.toRadians(225)))
+                .lineToSplineHeading(new Pose2d(-43, -16, Math.toRadians(225)))
+                .build();
+        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
+                .splineTo(new Vector2d(-43, -16), Math.toRadians(225))
                 .build();
 
         //angle back to face cone stack LOW junc after scoring
-        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-41, -16, Math.toRadians(225)))
+        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
                 .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+                .build();
+        Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
+                .splineTo(new Vector2d(-34, -12), Math.toRadians(180))
                 .build();
 
         //move forward to intake a cone EITHER junc
         Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-63, -12))
+                .lineTo(new Vector2d(-64, -12))
                 .build();
 
         //move backward from cone stack
-        Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-60, -12, Math.toRadians(180)))
+        Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-64, -12, Math.toRadians(180)))
                 .lineTo(new Vector2d(-34, -12))
                 .build();
 
@@ -159,7 +175,7 @@ public class    AprilTagAutonRight extends LinearOpMode {
 
 
         //simple parking from start trajectories
-        Trajectory moveToPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -61.5, Math.toRadians(90)))
+        Trajectory moveToPark = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .lineTo(new Vector2d(-35, -35))
                 .build();
         Trajectory leftPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
@@ -173,6 +189,105 @@ public class    AprilTagAutonRight extends LinearOpMode {
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
+        while (!isStarted() && !isStopRequested())
+        {
+            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+
+            int state = 0;
+            String side = "no";
+            telemetry.addData("Select left or right side start with the arrow buttons. " +
+                    "This must be done before hitting start!", " ");
+            telemetry.update();
+            if (gamepad1.dpad_left) {
+                side = "left";
+                state = 1;
+            } else if (gamepad1.dpad_right) {
+                side = "right";
+                state = 1;
+            } else {
+                state = 1;
+            }
+            telemetry.addData(side + " side selected.", " ");
+            telemetry.update();
+
+            if (state == 1) {
+                if (currentDetections.size() != 0) {
+                    boolean tagFound = false;
+
+                    for (AprilTagDetection tag : currentDetections) {
+                        if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                            tagOfInterest = tag;
+                            tagFound = true;
+                            break;
+                        }
+                    }
+
+                    if (tagFound) {
+                        telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                        tagToTelemetry(tagOfInterest);
+                    } else {
+                        telemetry.addLine("Don't see tag of interest :(");
+
+                        if (tagOfInterest == null) {
+                            telemetry.addLine("(The tag has never been seen)");
+                        } else {
+                            telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                            tagToTelemetry(tagOfInterest);
+                        }
+                    }
+
+                } else {
+                    telemetry.addLine("Don't see tag of interest :(");
+
+                    if (tagOfInterest == null) {
+                        telemetry.addLine("(The tag has never been seen)");
+                    } else {
+                        telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                        tagToTelemetry(tagOfInterest);
+                    }
+
+                }
+            }
+            telemetry.update();
+            sleep(20);
+        }
+
+        /*
+         * The START command just came in: now work off the latest snapshot acquired
+         * during the init loop.
+         */
+
+        /* Update the telemetry */
+        if(tagOfInterest != null)
+        {
+            telemetry.addLine("Tag snapshot:\n");
+            tagToTelemetry(tagOfInterest);
+            telemetry.update();
+        }
+        else
+        {
+            telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
+            telemetry.update();
+        }
+
+
+//        String side = "left";
+
+//        if (side.equals("left")) {
+        //general auton path with or without sighting zone
+//            lift.setTargetPosition(80); //above the cone
+//            lift.setVelocity(900); //arbitrary val for now
+        myLocalizer.followTrajectory(trL1j); //move forward to push cone
+//            lift.setTargetPosition(300); //height for low junc
+//            lift.setVelocity(900);
+        myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
+        myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
+        leftServo.setPower(-1);
+        rightServo.setPower(1);
+        sleep(1000);
+        myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
+        leftServo.setPower(0);
+        rightServo.setPower(0);
         while (!isStarted() && !isStopRequested()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
