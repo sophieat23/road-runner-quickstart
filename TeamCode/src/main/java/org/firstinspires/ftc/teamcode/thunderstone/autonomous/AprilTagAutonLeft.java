@@ -165,14 +165,14 @@ public class AprilTagAutonLeft extends LinearOpMode
         //WITHIN LOOP:
         //turn and move to low junc while scoring
         Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-43, -16, Math.toRadians(225)))
+                .lineToSplineHeading(new Pose2d(-43, -16.5, Math.toRadians(225)))
                 .build();
         Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .splineTo(new Vector2d(-43, -16), Math.toRadians(225))
+                .splineTo(new Vector2d(-43, -17), Math.toRadians(225))
                 .build();
 
         //angle back to face cone stack LOW junc after scoring
-        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
+        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-44, -16.5, Math.toRadians(225)))
                 .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
                 .build();
         Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
@@ -197,20 +197,20 @@ public class AprilTagAutonLeft extends LinearOpMode
                 .build();
 
         Trajectory trLPark3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-10, -12, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-13.5, -12, Math.toRadians(180)))
                 .build();
 
-
-        //simple parking from start trajectories
-        Trajectory moveToPark = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
-                .lineTo(new Vector2d(-35, -35))
-                .build();
-        Trajectory leftPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-63, -35))
-                .build();
-        Trajectory rightPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-10, -35))
-                .build();
+//
+//        //simple parking from start trajectories
+//        Trajectory moveToPark = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+//                .lineTo(new Vector2d(-35, -35))
+//                .build();
+//        Trajectory leftPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
+//                .strafeTo(new Vector2d(-59, -35))
+//                .build();
+//        Trajectory rightPark = myLocalizer.trajectoryBuilder(new Pose2d(-35, -35, Math.toRadians(90)))
+//                .strafeTo(new Vector2d(-12.5, -35))
+//                .build();
 
         /*
          * The INIT-loop:
@@ -310,20 +310,21 @@ public class AprilTagAutonLeft extends LinearOpMode
             myLocalizer.followTrajectory(trL1);
 //
         myLocalizer.followTrajectory(trL2Low); //move back and face cone stack
-        myLocalizer.followTrajectory(trL3Low);
-
-//            myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
-//            myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
-            lift.setTargetPosition(300); //height for low junc
-            lift.setVelocity(900);
-            leftServo.setPower(-1);
-            rightServo.setPower(1);
-            sleep(1000);
-        lift.setTargetPosition(0); //height for low junc
+        lift.setTargetPosition(305); //height for low junc
         lift.setVelocity(900);
+        myLocalizer.followTrajectory(trL3Low);
+        leftServo.setPower(-1);
+        rightServo.setPower(1);
+        sleep(2000);
         leftServo.setPower(0);
         rightServo.setPower(0);
+//            myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
+//            myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
+
         myLocalizer.followTrajectory((trL456Park2Low));
+//        lift.setTargetPosition(0); //height for low junc
+//        lift.setVelocity(900);
+
 //            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
             int stackPos = 150; //starting stack height
             for (int i = 0; i < 0; i++) { //just doing once to reduce chance of it going wrong
@@ -334,6 +335,7 @@ public class AprilTagAutonLeft extends LinearOpMode
                 myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
                 //intake a cone
                 //lower lift - ADD CODE
+                lift.setTargetPosition(stackPos-30);
                 leftServo.setPower(1);
                 rightServo.setPower(-1);
                 sleep(500); //1 second?
@@ -358,6 +360,8 @@ public class AprilTagAutonLeft extends LinearOpMode
 
             if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
             {
+                lift.setTargetPosition(0); //lower lift
+                lift.setVelocity(700);
 //                lift.setTargetPosition(70); //above cones in case we bump into stuff
 //                lift.setVelocity(900);
                 myLocalizer.followTrajectory(trLPark1Low);
@@ -369,15 +373,15 @@ public class AprilTagAutonLeft extends LinearOpMode
             {
                 //do nothing bc its already parked here
                 lift.setTargetPosition(0); //lower lift
-                lift.setVelocity(600);
+                lift.setVelocity(700);
 //
             } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
             {
-                lift.setTargetPosition(70); //above cones in case we bump into stuff
-                lift.setVelocity(900);
+//                lift.setTargetPosition(70); //above cones in case we bump into stuff
+//                lift.setVelocity(900);
                 myLocalizer.followTrajectory(trLPark3Low);
                 lift.setTargetPosition(0); //lower lift
-                lift.setVelocity(600);
+                lift.setVelocity(700);
 //
             } else {
                 //already accounted for
