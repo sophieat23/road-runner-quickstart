@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.thunderstone.teleop;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -39,7 +40,7 @@ public class TSMainOpMode extends LinearOpMode {
 
     private double DR4BMotor;
 
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
 //    public void init() {
 //        linear slide
 //        lsMotor = hardwareMap.get(DcMotorEx.class, "linearSlide");
@@ -80,6 +81,7 @@ public class TSMainOpMode extends LinearOpMode {
         FRMotor = 0;
 
         SampleMecanumDrive myLocalizer = new SampleMecanumDrive(hardwareMap);
+
 //    }
 //    public void loop() {
 
@@ -113,6 +115,11 @@ public class TSMainOpMode extends LinearOpMode {
                 FLMotor = 0;
                 FRMotor = 0;
                 DR4BMotor = 0;
+
+                myLocalizer.update();
+
+                Pose2d myPose = myLocalizer.getPoseEstimate();
+
 
                 //slow:
 //                if(gamepad1.y){ //has this even been working?
@@ -254,17 +261,18 @@ public class TSMainOpMode extends LinearOpMode {
 
                 //rotating 90 degrees
                 //need to test this!
-                int counterTurnProblamPos = 0;
-                int counterTurnProblamNeg = 0;
+                int counterTurnProblemPos = 0;
+                int counterTurnProblemNeg = 0;
                 if (gamepad1.left_bumper) { //rotate to the left 90
                     //we may need to switch to using encoder to do this, or find a way to use roadrunner
-//                    myLocalizer.get
-                    myLocalizer.turn(Math.toRadians(90 + counterTurnProblamPos));
-                    counterTurnProblamPos -= 90;
+//                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(90));
+                    myLocalizer.turn(Math.toRadians(90 + counterTurnProblemPos));
+                    counterTurnProblemPos -= 90;
 
                 } else if (gamepad1.right_bumper) { //rotate to the right 90
-                    myLocalizer.turn(Math.toRadians(-90 + counterTurnProblamNeg));
-                    counterTurnProblamNeg += 90;
+//                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(-90));
+                    myLocalizer.turn(Math.toRadians(-90 + counterTurnProblemNeg));
+                    counterTurnProblemNeg += 90;
                 }
 
                 //checking height
