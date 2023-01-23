@@ -171,7 +171,8 @@ public class AprilTagAutonLeft extends LinearOpMode
                 .lineTo(new Vector2d(-35.5, -6.5))
                 .build();
         //trajectiores that end in j(josh calling card)
-        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(angles.firstAngle)))
+        double startAngle = angles.firstAngle;
+        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(startAngle)))
                 .lineToLinearHeading(new Pose2d(-35,13.5, Math.toRadians(90)))
                 .build();
 
@@ -342,6 +343,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         telemetry.update();
         //this telemetry update will be usefull i think if we use imu for inital angle for trL1
+
 
             myLocalizer.followTrajectory(trL1j);
 //
