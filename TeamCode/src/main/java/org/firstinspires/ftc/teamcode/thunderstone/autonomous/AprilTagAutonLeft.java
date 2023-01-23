@@ -95,20 +95,9 @@ public class AprilTagAutonLeft extends LinearOpMode
 
     private double DR4BMotor;
 
-    //4 imu
-    BNO055IMU imu;
-    Orientation angles;
-
     @Override
-    public void runOpMode() //may add thrwos interupted exceptinon
+    public void runOpMode()
     {
-        //4imu
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-        //
-
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
@@ -171,8 +160,8 @@ public class AprilTagAutonLeft extends LinearOpMode
                 .lineTo(new Vector2d(-35.5, -6.5))
                 .build();
         //trajectiores that end in j(josh calling card)
-        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(angles.firstAngle)))
-                .lineToLinearHeading(new Pose2d(-35,13.5, Math.toRadians(90)))
+        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .splineTo(new Vector2d(-35.5,-6.5),Math.toRadians(90))
                 .build();
 
 
@@ -301,12 +290,6 @@ public class AprilTagAutonLeft extends LinearOpMode
 
                 }
 //            }
-            //4 imu
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ,AngleUnit.DEGREES);
-            telemetry.addData("heading", angles.firstAngle); //-perpendiculer to the floor, we use this
-            telemetry.addData("Roll", angles.secondAngle);
-            telemetry.addData("Pitch", angles.thirdAngle);
-            //
             telemetry.update();
             sleep(20);
         }
@@ -339,11 +322,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 //            lift.setTargetPosition(80); //above the cone
 //            lift.setVelocity(900); //arbitrary val for now
 //            myLocalizer.followTrajectory(trL1j); //move forward to push cone
-
-        telemetry.update();
-        //this telemetry update will be usefull i think if we use imu for inital angle for trL1
-
-            myLocalizer.followTrajectory(trL1j);
+            myLocalizer.followTrajectory(trL1);
 //
         myLocalizer.followTrajectory(trL2Low); //move back and face cone stack
         lift.setTargetPosition(305); //height for low junc

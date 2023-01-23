@@ -265,13 +265,13 @@ public class TSMainOpMode extends LinearOpMode {
                 int counterTurnProblemNeg = 0;
                 if (gamepad1.left_bumper) { //rotate to the left 90
                     //we may need to switch to using encoder to do this, or find a way to use roadrunner
-//                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(90));
-                    myLocalizer.turn(Math.toRadians(90 + counterTurnProblemPos));
+                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(90));
+//                    myLocalizer.turn(Math.toRadians(90 + counterTurnProblemPos));
                     counterTurnProblemPos -= 90;
 
                 } else if (gamepad1.right_bumper) { //rotate to the right 90
-//                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(-90));
-                    myLocalizer.turn(Math.toRadians(-90 + counterTurnProblemNeg));
+                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(-90));
+//                    myLocalizer.turn(Math.toRadians(-90 + counterTurnProblemNeg));
                     counterTurnProblemNeg += 90;
                 }
 
@@ -294,7 +294,7 @@ public class TSMainOpMode extends LinearOpMode {
                     // fightGravity = .5;
 
 
-                } else if(gamepad1.right_trigger>.01 && lift.getCurrentPosition() >30){//down
+                } else if(gamepad1.right_trigger>.01 && lift.getCurrentPosition() > 10){          //down
                      lift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); //does this change anything?
                     currentH= lift.getCurrentPosition();
 
@@ -323,7 +323,7 @@ public class TSMainOpMode extends LinearOpMode {
                     telemetry.addData("lift velocity", lift.getVelocity());
 
                 } else if (gamepad1.y) { //mid junction preset
-                    currentH = 500; //might need to change this, temp val
+                    currentH = 550; //might need to change this, temp val
                     lift.setTargetPosition(currentH);
                     lift.setPower(.5);
                     //lift.setVelocity();
@@ -340,7 +340,7 @@ public class TSMainOpMode extends LinearOpMode {
 
                 } else if(gamepad1.a){ //lowest preset for picking up cones
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    currentH = 70;
+                    currentH = 100;
                     lift.setTargetPosition(currentH);
                     if (wasHigh) {
                         lift.setVelocity(800);
