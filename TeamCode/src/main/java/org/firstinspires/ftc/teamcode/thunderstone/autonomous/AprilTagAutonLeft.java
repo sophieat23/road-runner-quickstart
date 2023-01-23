@@ -189,17 +189,18 @@ public class AprilTagAutonLeft extends LinearOpMode
                 .splineTo(new Vector2d(-34,-12),Math.toRadians(180))
                 .build();
 
+        Pose2d pose3 = new Pose2d(-44, -12, Math.toRadians(225));
         //WITHIN LOOP:
         //turn and move to low junc while scoring
         Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-43, -16.5, Math.toRadians(225)))
+                .lineToSplineHeading(pose3)
                 .build();
         Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
                 .splineTo(new Vector2d(-43, -17), Math.toRadians(225))
                 .build();
 
         //angle back to face cone stack LOW junc after scoring
-        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-44, -16.5, Math.toRadians(225)))
+        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(pose3)
                 .lineToSplineHeading(new Pose2d(-34, -13.5, Math.toRadians(180)))
                 .build();
         Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
@@ -363,7 +364,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 
 //            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
             int stackPos = 150; //starting stack height
-            for (int i = 0; i < 0; i++) { //just doing once to reduce chance of it going wrong
+            for (int i = 0; i < 1; i++) { //just doing once to reduce chance of it going wrong
                 //executes 3 times for 3 cones for now
                 //make this a spline?
                 lift.setTargetPosition(stackPos);
