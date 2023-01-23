@@ -171,9 +171,9 @@ public class AprilTagAutonLeft extends LinearOpMode
                 .lineTo(new Vector2d(-35.5, -6.5))
                 .build();
         //trajectiores that end in j(josh calling card)
-        double startAngle = angles.firstAngle;
-        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(startAngle)))
-                .lineToLinearHeading(new Pose2d(-35,13.5, Math.toRadians(90)))
+        //double sts = angles.firstAngle;
+        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(40, 40, Math.toRadians(90)))
                 .build();
 
 
@@ -200,7 +200,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         //angle back to face cone stack LOW junc after scoring
         Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(new Pose2d(-44, -16.5, Math.toRadians(225)))
-                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-34, -13.5, Math.toRadians(180)))
                 .build();
         Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
                 .splineTo(new Vector2d(-34, -12), Math.toRadians(180))
@@ -303,7 +303,7 @@ public class AprilTagAutonLeft extends LinearOpMode
                 }
 //            }
             //4 imu
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ,AngleUnit.DEGREES);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX,AngleUnit.DEGREES);
             telemetry.addData("heading", angles.firstAngle); //-perpendiculer to the floor, we use this
             telemetry.addData("Roll", angles.secondAngle);
             telemetry.addData("Pitch", angles.thirdAngle);
@@ -343,9 +343,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         telemetry.update();
         //this telemetry update will be usefull i think if we use imu for inital angle for trL1
-
-
-            myLocalizer.followTrajectory(trL1j);
+        myLocalizer.followTrajectory(trL1);
 //
         myLocalizer.followTrajectory(trL2Low); //move back and face cone stack
         lift.setTargetPosition(305); //height for low junc
