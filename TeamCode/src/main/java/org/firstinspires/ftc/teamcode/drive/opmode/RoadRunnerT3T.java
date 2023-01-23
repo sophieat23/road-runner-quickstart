@@ -28,8 +28,9 @@ public class RoadRunnerT3T extends LinearOpMode {
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
-        Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d())
+        Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
                 .splineTo(new Vector2d(-34,-60),Math.toRadians(90))
+                .lineTo(new Vector2d())
                // .lineToSplineHeading(new Pose2d(-34, -16, Math.toRadians(90)))
                 //.lineTo(new Vector2d(-35,-60))
                 //^this would simulate going infornt of the pole and raising the
