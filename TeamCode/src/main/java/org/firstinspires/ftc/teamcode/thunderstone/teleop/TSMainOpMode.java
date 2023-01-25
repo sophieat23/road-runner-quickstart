@@ -265,13 +265,13 @@ public class TSMainOpMode extends LinearOpMode {
                 int counterTurnProblemNeg = 0;
                 if (gamepad1.left_bumper) { //rotate to the left 90
                     //we may need to switch to using encoder to do this, or find a way to use roadrunner
-                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(90));
-//                    myLocalizer.turn(Math.toRadians(90 + counterTurnProblemPos));
+//                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(90));
+                    myLocalizer.turn(Math.toRadians(90 + counterTurnProblemPos));
                     counterTurnProblemPos -= 90;
 
                 } else if (gamepad1.right_bumper) { //rotate to the right 90
-                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(-90));
-//                    myLocalizer.turn(Math.toRadians(-90 + counterTurnProblemNeg));
+//                    myLocalizer.turn(myPose.getHeading() + Math.toRadians(-90));
+                    myLocalizer.turn(Math.toRadians(-90 + counterTurnProblemNeg));
                     counterTurnProblemNeg += 90;
                 }
 

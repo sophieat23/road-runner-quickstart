@@ -397,6 +397,7 @@ public class AprilTagAutonLeft extends LinearOpMode
                 lift.setVelocity(900);
                 myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
                 //might lower the lift down completely here before raising it to low junc
+                sleep(500);
                 lift.setTargetPosition(300); //height for low junc
                 lift.setVelocity(900);
                 myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
@@ -441,54 +442,6 @@ public class AprilTagAutonLeft extends LinearOpMode
                 //auton fails, cant recognize qrcode, just move forward to middle zone
 //            myLocalizer.followTrajectory(moveToPark);
             }
-//        }
-
-//        if (side.equals("right")) {
-            //add all the trajectories here for if we start autonomous on the right side
-            //should be the same y coordinates but different x
-
-//        }
-//        else { //left/right side was never selected, then move to park
-//            myLocalizer.followTrajectory(moveToPark);
-//            if (tagOfInterest.id == LEFT) {
-//                myLocalizer.followTrajectory(leftPark);
-//            }
-//            else if (tagOfInterest.id == RIGHT) {
-//                myLocalizer.followTrajectory(rightPark);
-//            }
-//        }
-
-        //old stuff from the example, not used in video
-//        if(tagOfInterest == null)
-//        {
-//            /*
-//             * Insert your autonomous code here, presumably running some default configuration
-//             * since the tag was never sighted during INIT
-//             */
-//        }
-//            myLocalizer.update();
-//
-//            // Retrieve your pose
-//            Pose2d myPose = myLocalizer.getPoseEstimate();
-//
-//            telemetry.addData("x", myPose.getX());
-//            telemetry.addData("y", myPose.getY());
-//            telemetry.addData("heading", myPose.getHeading());
-//        else
-//        {
-////            /*
-////             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
-////             *
-////             */
-////
-//
-//            // e.g.
-//
-//        }
-
-
-        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-//        while (opModeIsActive()) {sleep(20);}
     }
 
     void tagToTelemetry(AprilTagDetection detection)
