@@ -99,6 +99,19 @@ public class AprilTagAutonLeft extends LinearOpMode
     BNO055IMU imu;
     Orientation angles;
 
+    private void intakeUp(double pow) {
+        leftServo.setPower(pow);
+        rightServo.setPower(-pow);
+    }
+    private void intakeDown(double pow) {
+        leftServo.setPower(-pow);
+        rightServo.setPower(pow);
+    }
+    private void intakeStop() {
+        leftServo.setPower(0);
+        rightServo.setPower(0);
+    }
+
     @Override
     public void runOpMode() //may add thrwos interupted exceptinon
     {
@@ -337,7 +350,8 @@ public class AprilTagAutonLeft extends LinearOpMode
 
 //        if (side.equals("left")) {
             //general auton path with or without sighting zone
-        lift.setTargetPosition(0);
+        lift.setTargetPosition(0); //starting w/ lift not extended now to prevent inaccuracies in pathing
+        //assuming this doesn't interfere w/ signal cone
         //might have to lift it so it avoids cone
 //            lift.setTargetPosition(80); //above the cone
 //            lift.setVelocity(900); //arbitrary val for now
@@ -345,26 +359,28 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         telemetry.update();
         //this telemetry update will be usefull i think if we use imu for inital angle for trL1
-        myLocalizer.followTrajectory(trL1);
+        myLocalizer.followTrajectory(trL1); //move forward (far) to push cone out of the way
+        //might have to reconsider pushing it that far forward in case opposing robot gets in the way
 //
-        myLocalizer.followTrajectory(trL2Low); //move back and face cone stack
-        lift.setTargetPosition(305); //height for low junc
+        myLocalizer.followTrajectory(trL2Low); //move back into middle block next to low junc, facing cone stack
+        int lowJunc = 305;
+        lift.setTargetPosition(lowJunc); //height for low junc
         lift.setVelocity(900);
-        myLocalizer.followTrajectory(trL3Low);
-        leftServo.setPower(-1);
-        rightServo.setPower(1);
+        myLocalizer.followTrajectory(trL3Low); //angles over the low junction to score the cone
+        intakeDown(1);
         sleep(2000);
         leftServo.setPower(0);
         rightServo.setPower(0);
 //            myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
 //            myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
 
-        myLocalizer.followTrajectory((trL456Park2Low));
+        myLocalizer.followTrajectory((trL456Park2Low)); //prob wouldn't work for parking in 2nd spot, too far back rn
+        //angles heading back towards the cone junction to prepare to drive forward
 //        lift.setTargetPosition(0); //height for low junc
 //        lift.setVelocity(900);
 
 //            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
-            int stackPos = 210; //starting stack height
+            int stackPos = 230; //starting stack height
             for (int i = 0; i < 1; i++) { //just doing once to reduce chance of it going wrong
                 //executes 3 times for 3 cones for now
                 //make this a spline?
@@ -373,25 +389,22 @@ public class AprilTagAutonLeft extends LinearOpMode
                 myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
                 //intake a cone
                 //lower lift - ADD CODE
-                lift.setTargetPosition(stackPos-40);
-                leftServo.setPower(1);
-                rightServo.setPower(-1);
+                lift.setTargetPosition(stackPos-50); //lowering to grab cone from stack
+                intakeUp(1);
                 sleep(1000); //1 second?
-                leftServo.setPower(0);
-                rightServo.setPower(0);
-                lift.setTargetPosition(stackPos);
+                intakeStop();
+                lift.setTargetPosition(stackPos+30); //lifting above stacks
                 lift.setVelocity(900);
                 myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
-                myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+                //might lower the lift down completely here before raising it to low junc
                 lift.setTargetPosition(300); //height for low junc
                 lift.setVelocity(900);
-                leftServo.setPower(-1);
-                rightServo.setPower(1);
+                myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+                intakeDown(1);
                 sleep(1000);
-                lift.setTargetPosition(0); //height for low junc
+                lift.setTargetPosition(0);
                 lift.setVelocity(900);
-                leftServo.setPower(0);
-                rightServo.setPower(0);
+                intakeStop();
                 myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
                 stackPos -= 30; //decreases as each cone gets removed
             }
