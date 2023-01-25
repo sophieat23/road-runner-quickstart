@@ -152,7 +152,7 @@ public class AprilTagAutonRight extends LinearOpMode
         // This is assuming you're using StandardTrackingWheelLocalizer.java
         // Switch this class to something else (Like TwoWheeTrackingLocalizer.java) if your configuration is different
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
-        myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
+        myLocalizer.setPoseEstimate(new Pose2d(35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
         lift = hardwareMap.get(DcMotorEx.class, "DR4B");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
