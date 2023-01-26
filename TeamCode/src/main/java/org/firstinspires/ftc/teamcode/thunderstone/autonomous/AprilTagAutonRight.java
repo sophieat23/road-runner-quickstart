@@ -180,9 +180,12 @@ public class AprilTagAutonRight extends LinearOpMode
 //        Vector2d currentVector = new Vector2d(-35.5, -7.3);
 //        double rSideHeading = Math.toRadians(90);
 
+        double xPushedTo = 35.5;
+        double yPushedTo = -6.5;
+
         //push cone out of the way EITHER junc
-        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(35,-64, Math.toRadians(90)))
-                .lineTo(new Vector2d(35.5, -6.5))
+        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(35,-64, Math.toRadians(90))) //starting pos
+                .lineTo(new Vector2d(xPushedTo, yPushedTo))
                 .build();
         //trajectiores that end in j(josh calling card)
 //        //double sts = angles.firstAngle;
@@ -195,10 +198,11 @@ public class AprilTagAutonRight extends LinearOpMode
 
 
         //LOW JUNCTION parts 2-6
+        Pose2d pose2 = new Pose2d(34, -12, Math.toRadians(0));
 
         //move back near low junc to prepare to score & face cone stack
-        Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(35.5, -6.5, Math.toRadians(90)))
-                .lineToSplineHeading(new Pose2d(34, -12, Math.toRadians(0)))
+        Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(xPushedTo, yPushedTo, Math.toRadians(90)))
+                .lineToSplineHeading(pose2)
                 .build();
 
 //        Trajectory trL2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(35.5, -6.5, Math.toRadians(90)))
@@ -208,7 +212,7 @@ public class AprilTagAutonRight extends LinearOpMode
         Pose2d pose3 = new Pose2d(44, -20, Math.toRadians(-45));
         //WITHIN LOOP:
         //turn and move to low junc while scoring
-        Trajectory trR3Low = myLocalizer.trajectoryBuilder(new Pose2d(34, -12, Math.toRadians(0)))
+        Trajectory trR3Low = myLocalizer.trajectoryBuilder(pose2)
                 .lineToSplineHeading(pose3)
                 .build();
 //        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(34, -12, Math.toRadians(180)))
