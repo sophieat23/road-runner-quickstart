@@ -195,7 +195,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         //move back near low junc to prepare to score & face cone stack
         Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
-                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-36, -12, Math.toRadians(180)))
                 .build();
 
 //        Trajectory trL2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
