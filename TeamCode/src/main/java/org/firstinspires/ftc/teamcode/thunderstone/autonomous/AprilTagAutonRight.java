@@ -152,7 +152,7 @@ public class AprilTagAutonRight extends LinearOpMode
         // This is assuming you're using StandardTrackingWheelLocalizer.java
         // Switch this class to something else (Like TwoWheeTrackingLocalizer.java) if your configuration is different
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
-        myLocalizer.setPoseEstimate(new Pose2d(35,-62, Math.toRadians(90))); //start pos//heading in rads
+        myLocalizer.setPoseEstimate(new Pose2d(35,-64, Math.toRadians(90))); //start pos//heading in rads
 
         lift = hardwareMap.get(DcMotorEx.class, "DR4B");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -181,7 +181,7 @@ public class AprilTagAutonRight extends LinearOpMode
 //        double rSideHeading = Math.toRadians(90);
 
         //push cone out of the way EITHER junc
-        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(35,-62, Math.toRadians(90)))
+        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(35,-64, Math.toRadians(90)))
                 .lineTo(new Vector2d(35.5, -6.5))
                 .build();
         //trajectiores that end in j(josh calling card)
@@ -215,9 +215,11 @@ public class AprilTagAutonRight extends LinearOpMode
 //                .splineTo(new Vector2d(43, -17), Math.toRadians(225))
 //                .build();
 
-        //angle back to face cone stack LOW junc after scoring
+        //angle back to face cone stack LOW junc after scorin=
+        Pose2d pose456 = new Pose2d(36, -13.5, Math.toRadians(0));
+
         Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(pose3)
-                .lineToSplineHeading(new Pose2d(36, -13.5, Math.toRadians(0)))
+                .lineToSplineHeading(pose456)
                 .build();
 //        Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(43, -16, Math.toRadians(225)))
 //                .splineTo(new Vector2d(34, -12), Math.toRadians(180))
@@ -225,7 +227,7 @@ public class AprilTagAutonRight extends LinearOpMode
 
 
         //move forward to intake a cone EITHER junc
-        Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(34, -12, Math.toRadians(0)))
+        Trajectory trL7 = myLocalizer.trajectoryBuilder(pose456)
                 .lineTo(new Vector2d(66, -12))
                 .build();
 
