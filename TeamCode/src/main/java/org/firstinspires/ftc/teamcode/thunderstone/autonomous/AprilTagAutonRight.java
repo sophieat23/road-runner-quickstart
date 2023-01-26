@@ -229,26 +229,36 @@ public class AprilTagAutonRight extends LinearOpMode
 //                .splineTo(new Vector2d(34, -12), Math.toRadians(180))
 //                .build();
 
+        double x7 = 66;
+        double  y7 = -12;
 
         //move forward to intake a cone EITHER junc
         Trajectory trL7 = myLocalizer.trajectoryBuilder(pose456)
-                .lineTo(new Vector2d(66, -12))
+                .lineTo(new Vector2d(x7, y7))
                 .build();
 
+        double x8 = 34;
+        double y8 = -12;
+
         //move backward from cone stack
-        Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(66, -12, Math.toRadians(0)))
-                .lineTo(new Vector2d(34, -12))
+        Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(x7, y7, Math.toRadians(0)))
+                .lineTo(new Vector2d(x8, y8))
                 .build();
 
         //END LOOP
 
+        double park1X = 59;
+        double park1Y = -12;
+        double park2X = 13.5;
+        double park2Y = -12;
+
         //LOW JUNCTION parking 1 and 3
-        Trajectory trLPark1Low = myLocalizer.trajectoryBuilder(new Pose2d(34, -12, Math.toRadians(0)))
-                .lineTo(new Vector2d(59, -12))
+        Trajectory trLPark1Low = myLocalizer.trajectoryBuilder(new Pose2d(x8, y8, Math.toRadians(0)))
+                .lineTo(new Vector2d(park1X, park1Y))
                 .build();
 
-        Trajectory trLPark3Low = myLocalizer.trajectoryBuilder(new Pose2d(34, -12, Math.toRadians(0)))
-                .lineToSplineHeading(new Pose2d(13.5, -12, Math.toRadians(0)))
+        Trajectory trLPark3Low = myLocalizer.trajectoryBuilder(new Pose2d(x8, y8, Math.toRadians(0)))
+                .lineToSplineHeading(new Pose2d(park2X, park2Y, Math.toRadians(0)))
                 .build();
 
 //
