@@ -249,6 +249,7 @@ public class AprilTagAutonRight extends LinearOpMode
 
         double park1X = 59;
         double park1Y = -12;
+
         double park2X = 13.5;
         double park2Y = -12;
 
@@ -382,7 +383,7 @@ public class AprilTagAutonRight extends LinearOpMode
         //might have to reconsider pushing it that far forward in case opposing robot gets in the way
 //
         myLocalizer.followTrajectory(trL2Low); //move back into middle block next to low junc, facing cone stack
-        int lowJunc = 305;
+        int lowJunc = 315;
         lift.setTargetPosition(lowJunc); //height for low junc
         lift.setVelocity(900);
         myLocalizer.followTrajectory(trR3Low); //angles over the low junction to score the cone
@@ -408,7 +409,7 @@ public class AprilTagAutonRight extends LinearOpMode
             myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
             //intake a cone
             //lower lift - ADD CODE
-            lift.setTargetPosition(stackPos-50); //lowering to grab cone from stack
+            lift.setTargetPosition(stackPos-70); //lowering to grab cone from stack
             intakeUp(1);
             sleep(1000); //1 second?
             intakeStop();

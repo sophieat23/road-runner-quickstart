@@ -208,17 +208,17 @@ public class AprilTagAutonLeft extends LinearOpMode
         Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
                 .lineToSplineHeading(pose3)
                 .build();
-        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .splineTo(new Vector2d(-43, -17), Math.toRadians(225))
-                .build();
+//        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
+//                .splineTo(new Vector2d(-43, -17), Math.toRadians(225))
+//                .build();
 
         //angle back to face cone stack LOW junc after scoring
         Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(pose3)
                 .lineToSplineHeading(new Pose2d(-34, -13.5, Math.toRadians(180)))
                 .build();
-        Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
-                .splineTo(new Vector2d(-34, -12), Math.toRadians(180))
-                .build();
+//        Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
+//                .splineTo(new Vector2d(-34, -12), Math.toRadians(180))
+//                .build();
 
 
         //move forward to intake a cone EITHER junc
@@ -389,7 +389,7 @@ public class AprilTagAutonLeft extends LinearOpMode
                 myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
                 //intake a cone
                 //lower lift - ADD CODE
-                lift.setTargetPosition(stackPos-50); //lowering to grab cone from stack
+                lift.setTargetPosition(stackPos-70); //lowering to grab cone from stack
                 intakeUp(1);
                 sleep(1000); //1 second?
                 intakeStop();

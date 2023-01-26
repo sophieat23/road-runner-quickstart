@@ -299,7 +299,7 @@ public class TSMainOpMode extends LinearOpMode {
                     currentH= lift.getCurrentPosition();
 
                     if(currentH > 300){
-                        lift.setVelocity(-800);
+                        lift.setVelocity(-900);
                         // telemetry.addData("lift velocity", lift.getVelocity());
 //                        lift.setPower(-.0000000000000001);//gravity is doing most of the work so only need a little power to keep it from falling down too fast
                     }
@@ -340,7 +340,7 @@ public class TSMainOpMode extends LinearOpMode {
 
                 } else if(gamepad1.a){ //lowest preset for picking up cones
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    currentH = 100;
+                    currentH = 120;
                     lift.setTargetPosition(currentH);
                     if (wasHigh) {
                         lift.setVelocity(800);
