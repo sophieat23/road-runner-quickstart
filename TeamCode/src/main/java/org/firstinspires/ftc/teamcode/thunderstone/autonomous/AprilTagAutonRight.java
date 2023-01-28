@@ -152,7 +152,8 @@ public class AprilTagAutonRight extends LinearOpMode
         // This is assuming you're using StandardTrackingWheelLocalizer.java
         // Switch this class to something else (Like TwoWheeTrackingLocalizer.java) if your configuration is different
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
-        myLocalizer.setPoseEstimate(new Pose2d(35,-64, Math.toRadians(90))); //start pos//heading in rads
+        Pose2d startPose = new Pose2d(35,-62, Math.toRadians(90));
+        myLocalizer.setPoseEstimate(startPose); //start pos//heading in rads
 
         lift = hardwareMap.get(DcMotorEx.class, "DR4B");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -184,7 +185,7 @@ public class AprilTagAutonRight extends LinearOpMode
         double yPushedTo = -6.5;
 
         //push cone out of the way EITHER junc
-        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(35,-64, Math.toRadians(90))) //starting pos
+        Trajectory trL1 = myLocalizer.trajectoryBuilder(startPose) //starting pos
                 .lineTo(new Vector2d(xPushedTo, yPushedTo))
                 .build();
         //trajectiores that end in j(josh calling card)
@@ -220,7 +221,7 @@ public class AprilTagAutonRight extends LinearOpMode
 //                .build();
 
         //angle back to face cone stack LOW junc after scorin=
-        Pose2d pose456 = new Pose2d(36, -13.5, Math.toRadians(0));
+        Pose2d pose456 = new Pose2d(34, -13.5, Math.toRadians(0));
 
         Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(pose3)
                 .lineToSplineHeading(pose456)
