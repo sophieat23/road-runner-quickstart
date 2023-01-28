@@ -184,7 +184,7 @@ public class AprilTagAutonRight extends LinearOpMode
         double yPushedTo = -6.5;
 
         //push cone out of the way EITHER junc
-        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(35,-64, Math.toRadians(90))) //starting pos
+        Trajectory trL1 = myLocalizer.trajectoryBuilder(new Pose2d(35,-65, Math.toRadians(90))) //-64y//starting pos
                 .lineTo(new Vector2d(xPushedTo, yPushedTo))
                 .build();
         //trajectiores that end in j(josh calling card)
