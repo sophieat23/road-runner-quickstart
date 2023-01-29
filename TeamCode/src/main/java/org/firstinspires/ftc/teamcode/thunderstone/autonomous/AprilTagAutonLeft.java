@@ -206,7 +206,7 @@ public class AprilTagAutonLeft extends LinearOpMode
         Pose2d pose3 = new Pose2d(-46, -21, Math.toRadians(225)); //44.5
         //WITHIN LOOP:
         //turn and move to low junc while scoring
-        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-32, -12, Math.toRadians(180)))
+        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
                 .lineToSplineHeading(pose3)
                 .build();
 //        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
@@ -214,16 +214,21 @@ public class AprilTagAutonLeft extends LinearOpMode
 //                .build();
 
         //angle back to face cone stack LOW junc after scoring
-        Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(pose3)
-                .lineToSplineHeading(new Pose2d(-34, -13.5, Math.toRadians(180)))
+        Trajectory trL456 = myLocalizer.trajectoryBuilder(pose3)
+                .lineToSplineHeading(new Pose2d(-35, -12, Math.toRadians(180))) //34
                 .build();
+
+        Trajectory trPark2 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -12, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-38, -12, Math.toRadians(180)))
+                .build();
+
 //        Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
 //                .splineTo(new Vector2d(-34, -12), Math.toRadians(180))
 //                .build();
 
 
         //move forward to intake a cone EITHER junc
-        Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
+        Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -12, Math.toRadians(180)))
                 .lineTo(new Vector2d(-66, -12))
                 .build();
 
@@ -240,7 +245,7 @@ public class AprilTagAutonLeft extends LinearOpMode
                 .build();
 
         Trajectory trLPark3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-13.5, -12, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(180)))
                 .build();
 
 //
@@ -378,7 +383,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 //            myLocalizer.followTrajectory(trL2Lowj); //move back and face cone stack
 //            myLocalizer.followTrajectory(trL3Lowj); //turn to drop a cone on low junction
 
-        myLocalizer.followTrajectory((trL456Park2Low)); //prob wouldn't work for parking in 2nd spot, too far back rn
+        myLocalizer.followTrajectory((trL456)); //prob wouldn't work for parking in 2nd spot, too far back rn
         //angles heading back towards the cone junction to prepare to drive forward
 //        lift.setTargetPosition(0); //height for low junc
 //        lift.setVelocity(900);
@@ -408,7 +413,7 @@ public class AprilTagAutonLeft extends LinearOpMode
                 intakeDown(1);
                 sleep(1000);
                 intakeStop();
-                myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
+                myLocalizer.followTrajectory(trL456); //angle back to face cone stack
                 lift.setTargetPosition(0);
                 lift.setVelocity(900);
                 stackPos -= 30; //decreases as each cone gets removed
@@ -425,6 +430,7 @@ public class AprilTagAutonLeft extends LinearOpMode
             } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
             //if theres no tag detected or if its the middle one so tag = 2, middle park
             {
+                myLocalizer.followTrajectory(trPark2);
                 //do nothing bc its already parked here
 
 //
