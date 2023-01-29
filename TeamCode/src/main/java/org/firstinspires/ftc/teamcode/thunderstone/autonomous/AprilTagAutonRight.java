@@ -152,7 +152,7 @@ public class AprilTagAutonRight extends LinearOpMode
         // This is assuming you're using StandardTrackingWheelLocalizer.java
         // Switch this class to something else (Like TwoWheeTrackingLocalizer.java) if your configuration is different
         // Set your initial pose to x: 10, y: 10, facing 90 degrees
-        Pose2d startPose = new Pose2d(35,-62, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(35,-64, Math.toRadians(90));
         myLocalizer.setPoseEstimate(startPose); //start pos//heading in rads
 
         lift = hardwareMap.get(DcMotorEx.class, "DR4B");
@@ -182,7 +182,7 @@ public class AprilTagAutonRight extends LinearOpMode
 //        double rSideHeading = Math.toRadians(90);
 
         double xPushedTo = 35.5;
-        double yPushedTo = -6.5;
+        double yPushedTo = -6.5; //6.5
 
         //push cone out of the way EITHER junc
         Trajectory trL1 = myLocalizer.trajectoryBuilder(startPose) //starting pos
@@ -221,8 +221,8 @@ public class AprilTagAutonRight extends LinearOpMode
 //                .splineTo(new Vector2d(43, -17), Math.toRadians(225))
 //                .build();
 
-        //angle back to face cone stack LOW junc after scorin=
-        Pose2d pose456 = new Pose2d(34, -13.5, Math.toRadians(0));
+        //angle back to face cone stack LOW junc after scoring
+        Pose2d pose456 = new Pose2d(37, -12, Math.toRadians(0));
 
         Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(pose3)
                 .lineToSplineHeading(pose456)
@@ -231,7 +231,7 @@ public class AprilTagAutonRight extends LinearOpMode
 //                .splineTo(new Vector2d(34, -12), Math.toRadians(180))
 //                .build();
 
-        double x7 = 66;
+        double x7 = 67;
         double  y7 = -12;
 
         //move forward to intake a cone EITHER junc
@@ -239,7 +239,7 @@ public class AprilTagAutonRight extends LinearOpMode
                 .lineTo(new Vector2d(x7, y7))
                 .build();
 
-        double x8 = 34;
+        double x8 = 32; //34
         double y8 = -12;
 
         //move backward from cone stack
@@ -249,19 +249,19 @@ public class AprilTagAutonRight extends LinearOpMode
 
         //END LOOP
 
-        double park1X = 59;
+        double park3X = 61;
+        double park3Y = -12;
+
+        double park1X = 15;
         double park1Y = -12;
 
-        double park2X = 13.5;
-        double park2Y = -12;
-
         //LOW JUNCTION parking 1 and 3
-        Trajectory trLPark1Low = myLocalizer.trajectoryBuilder(new Pose2d(x8, y8, Math.toRadians(0)))
+        Trajectory trLPark1Low = myLocalizer.trajectoryBuilder(pose456)
                 .lineTo(new Vector2d(park1X, park1Y))
                 .build();
 
-        Trajectory trLPark3Low = myLocalizer.trajectoryBuilder(new Pose2d(x8, y8, Math.toRadians(0)))
-                .lineToSplineHeading(new Pose2d(park2X, park2Y, Math.toRadians(0)))
+        Trajectory trLPark3Low = myLocalizer.trajectoryBuilder(pose456)
+                .lineToSplineHeading(new Pose2d(park3X, park3Y, Math.toRadians(0)))
                 .build();
 
 //
@@ -381,8 +381,13 @@ public class AprilTagAutonRight extends LinearOpMode
 
         telemetry.update();
         //this telemetry update will be usefull i think if we use imu for inital angle for trL1
+        intakeUp(1);
+        sleep(800);
+        intakeStop();
         myLocalizer.followTrajectory(trL1); //move forward (far) to push cone out of the way
         //might have to reconsider pushing it that far forward in case opposing robot gets in the way
+        lift.setTargetPosition(30);
+        lift.setVelocity(900);
 //
         myLocalizer.followTrajectory(trL2Low); //move back into middle block next to low junc, facing cone stack
         int lowJunc = 315;
@@ -402,7 +407,7 @@ public class AprilTagAutonRight extends LinearOpMode
 //        lift.setVelocity(900);
 
 //            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
-        int stackPos = 230; //starting stack height
+        int stackPos = 210; //starting stack height
         for (int i = 0; i < 2; i++) { //just doing once to reduce chance of it going wrong
             //executes 3 times for 3 cones for now
             //make this a spline?
@@ -413,9 +418,9 @@ public class AprilTagAutonRight extends LinearOpMode
             //lower lift - ADD CODE
             lift.setTargetPosition(stackPos-60); //lowering to grab cone from stack
             intakeUp(1);
-            sleep(1000); //1 second?
+            sleep(700); //1 second?
             intakeStop();
-            lift.setTargetPosition(stackPos+30); //lifting above stacks
+            lift.setTargetPosition(stackPos+40); //lifting above stacks
             lift.setVelocity(900);
             myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
             //might lower the lift down completely here before raising it to low junc
@@ -424,7 +429,7 @@ public class AprilTagAutonRight extends LinearOpMode
             lift.setVelocity(900);
             myLocalizer.followTrajectory(trR3Low); //turn to drop a cone on low junction
             intakeDown(1);
-            sleep(1000);
+            sleep(700);
             intakeStop();
             myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
             lift.setTargetPosition(0);

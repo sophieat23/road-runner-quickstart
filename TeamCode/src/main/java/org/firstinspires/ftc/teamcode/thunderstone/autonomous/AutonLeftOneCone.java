@@ -1,3 +1,30 @@
+package org.firstinspires.ftc.teamcode.thunderstone.autonomous;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
+import java.util.ArrayList;
+
+
 /*
  * Copyright (c) 2021 OpenFTC Team
  *
@@ -19,45 +46,44 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.thunderstone.autonomous;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+        import com.acmerobotics.roadrunner.geometry.Pose2d;
+        import com.acmerobotics.roadrunner.geometry.Vector2d;
+        import com.acmerobotics.roadrunner.trajectory.Trajectory;
+        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+        import com.qualcomm.robotcore.hardware.CRServo;
+        import com.qualcomm.robotcore.hardware.DcMotor;
+        import com.qualcomm.robotcore.hardware.DcMotorEx;
+        import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.openftc.apriltag.AprilTagDetection;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
+        import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+        import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+        import org.openftc.apriltag.AprilTagDetection;
+        import org.openftc.easyopencv.OpenCvCamera;
+        import org.openftc.easyopencv.OpenCvCameraFactory;
+        import org.openftc.easyopencv.OpenCvCameraRotation;
 
-import java.util.ArrayList;
-import java.util.Vector;
+        import java.util.ArrayList;
+        import java.util.Vector;
 
 
 //for imu -delete the grey ones later
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+        import com.qualcomm.hardware.bosch.BNO055IMU;
+        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+        import com.qualcomm.robotcore.hardware.DcMotor;
+        import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+        import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+        import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+        import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+        import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+        import org.firstinspires.ftc.robotcore.external.navigation.Position;
+        import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name = "6010 April Tag Left Autonomous")
-public class AprilTagAutonLeft extends LinearOpMode
+@Autonomous(name = "6010 Left Autonomous 1 Cone")
+public class AutonLeftOneCone extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -281,31 +307,20 @@ public class AprilTagAutonLeft extends LinearOpMode
 //            telemetry.update();
 
 //            if (state == 1) {
-                if (currentDetections.size() != 0) {
-                    boolean tagFound = false;
+            if (currentDetections.size() != 0) {
+                boolean tagFound = false;
 
-                    for (AprilTagDetection tag : currentDetections) {
-                        if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
-                            tagOfInterest = tag;
-                            tagFound = true;
-                            break;
-                        }
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
                     }
+                }
 
-                    if (tagFound) {
-                        telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                        tagToTelemetry(tagOfInterest);
-                    } else {
-                        telemetry.addLine("Don't see tag of interest :(");
-
-                        if (tagOfInterest == null) {
-                            telemetry.addLine("(The tag has never been seen)");
-                        } else {
-                            telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                            tagToTelemetry(tagOfInterest);
-                        }
-                    }
-
+                if (tagFound) {
+                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
                 } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
@@ -315,11 +330,22 @@ public class AprilTagAutonLeft extends LinearOpMode
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
-
                 }
+
+            } else {
+                telemetry.addLine("Don't see tag of interest :(");
+
+                if (tagOfInterest == null) {
+                    telemetry.addLine("(The tag has never been seen)");
+                } else {
+                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+            }
 //            }
             //4 imu
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX,AngleUnit.DEGREES);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("heading", angles.firstAngle); //-perpendiculer to the floor, we use this
             telemetry.addData("Roll", angles.secondAngle);
             telemetry.addData("Pitch", angles.thirdAngle);
@@ -350,7 +376,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 //        String side = "left";
 
 //        if (side.equals("left")) {
-            //general auton path with or without sighting zone
+        //general auton path with or without sighting zone
         lift.setTargetPosition(0); //starting w/ lift not extended now to prevent inaccuracies in pathing
         //assuming this doesn't interfere w/ signal cone
         //might have to lift it so it avoids cone
@@ -384,63 +410,63 @@ public class AprilTagAutonLeft extends LinearOpMode
 //        lift.setVelocity(900);
 
 //            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
-            int stackPos = 210; //starting stack height
-            for (int i = 0; i < 2; i++) { //just doing once to reduce chance of it going wrong
-                //executes 3 times for 3 cones for now
-                //make this a spline?
-                lift.setTargetPosition(stackPos);
-                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
-                //intake a cone
-                //lower lift - ADD CODE
-                lift.setTargetPosition(stackPos-60); //lowering to grab cone from stack
-                intakeUp(1);
-                sleep(700); //1 second?
-                intakeStop();
-                lift.setTargetPosition(stackPos+30); //lifting above stacks
-                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
-                //might lower the lift down completely here before raising it to low junc
-                sleep(500);
-                lift.setTargetPosition(300); //height for low junc
-                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
-                intakeDown(1);
-                sleep(1000);
-                intakeStop();
-                myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
-                lift.setTargetPosition(0);
-                lift.setVelocity(900);
-                stackPos -= 30; //decreases as each cone gets removed
-            }
+        int stackPos = 210; //starting stack height
+//        for (int i = 0; i < 0; i++) { //just doing once to reduce chance of it going wrong
+//            //executes 3 times for 3 cones for now
+//            //make this a spline?
+//            lift.setTargetPosition(stackPos);
+//            lift.setVelocity(900);
+//            myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
+//            //intake a cone
+//            //lower lift - ADD CODE
+//            lift.setTargetPosition(stackPos-60); //lowering to grab cone from stack
+//            intakeUp(1);
+//            sleep(700); //1 second?
+//            intakeStop();
+//            lift.setTargetPosition(stackPos+30); //lifting above stacks
+//            lift.setVelocity(900);
+//            myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
+//            //might lower the lift down completely here before raising it to low junc
+//            sleep(500);
+//            lift.setTargetPosition(300); //height for low junc
+//            lift.setVelocity(900);
+//            myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+//            intakeDown(1);
+//            sleep(1000);
+//            intakeStop();
+//            myLocalizer.followTrajectory(trL456Park2Low); //angle back to face cone stack
+//            lift.setTargetPosition(0);
+//            lift.setVelocity(900);
+//            stackPos -= 30; //decreases as each cone gets removed
+//        }
 
-            if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
-            {
+        if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
+        {
 //                lift.setTargetPosition(70); //above cones in case we bump into stuff
 //                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trLPark1Low);
+            myLocalizer.followTrajectory(trLPark1Low);
 //                lift.setTargetPosition(0); //lower lift
 //                lift.setVelocity(600);
 
-            } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
-            //if theres no tag detected or if its the middle one so tag = 2, middle park
-            {
-                //do nothing bc its already parked here
+        } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
+        //if theres no tag detected or if its the middle one so tag = 2, middle park
+        {
+            //do nothing bc its already parked here
 
 //
-            } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
-            {
+        } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
+        {
 //                lift.setTargetPosition(70); //above cones in case we bump into stuff
 //                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trLPark3Low);
+            myLocalizer.followTrajectory(trLPark3Low);
 
 //
-            } else {
-                //already accounted for
+        } else {
+            //already accounted for
 
-                //auton fails, cant recognize qrcode, just move forward to middle zone
+            //auton fails, cant recognize qrcode, just move forward to middle zone
 //            myLocalizer.followTrajectory(moveToPark);
-            }
+        }
     }
 
     void tagToTelemetry(AprilTagDetection detection)
