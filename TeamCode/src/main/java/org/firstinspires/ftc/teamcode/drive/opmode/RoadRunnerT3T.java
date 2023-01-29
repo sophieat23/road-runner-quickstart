@@ -29,7 +29,7 @@ public class RoadRunnerT3T extends LinearOpMode {
         myLocalizer.setPoseEstimate(new Pose2d(-35,-61.5, Math.toRadians(90))); //start pos//heading in rads
 
         Trajectory traj1 = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
-                .splineTo(new Vector2d(-34,-60),Math.toRadians(90))
+                .splineTo(new Vector2d(-34,-60),Math.toRadians(180))
                 .lineTo(new Vector2d())
                // .lineToSplineHeading(new Pose2d(-34, -16, Math.toRadians(90)))
                 //.lineTo(new Vector2d(-35,-60))
