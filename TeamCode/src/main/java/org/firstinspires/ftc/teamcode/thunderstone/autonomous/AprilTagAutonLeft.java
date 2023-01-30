@@ -229,12 +229,12 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         //move forward to intake a cone EITHER junc
         Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-67, -12)) //66
+                .lineTo(new Vector2d(-66, -12)) //66
                 .build();
 
         //move backward from cone stack
         Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-66, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-32, -12))
+                .lineTo(new Vector2d(-34, -12))
                 .build();
 
         //END LOOP

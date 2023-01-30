@@ -47,43 +47,43 @@ import java.util.ArrayList;
  */
 
 
-        import com.acmerobotics.roadrunner.geometry.Pose2d;
-        import com.acmerobotics.roadrunner.geometry.Vector2d;
-        import com.acmerobotics.roadrunner.trajectory.Trajectory;
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.hardware.CRServo;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.DcMotorEx;
-        import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-        import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-        import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-        import org.openftc.apriltag.AprilTagDetection;
-        import org.openftc.easyopencv.OpenCvCamera;
-        import org.openftc.easyopencv.OpenCvCameraFactory;
-        import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
-        import java.util.ArrayList;
-        import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Vector;
 
 
 //for imu -delete the grey ones later
-        import com.qualcomm.hardware.bosch.BNO055IMU;
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
-        import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-        import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-        import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-        import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-        import org.firstinspires.ftc.robotcore.external.navigation.Position;
-        import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name = "6010 Left Autonomous 1 Cone")
-public class AutonLeftOneCone extends LinearOpMode
+@Autonomous(name = "6010 Left Auton 2 Cones")
+public class Left2Cones extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -241,15 +241,12 @@ public class AutonLeftOneCone extends LinearOpMode
 
         //angle back to face cone stack LOW junc after scoring
         Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(pose3)
-                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180))) //13.5
+                .lineToSplineHeading(new Pose2d(-34, -13.5, Math.toRadians(180)))
                 .build();
 //        Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-43, -16, Math.toRadians(225)))
 //                .splineTo(new Vector2d(-34, -12), Math.toRadians(180))
 //                .build();
 
-        Trajectory trPark2 = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-36, -12, Math.toRadians(180)))
-                .build();
 
         //move forward to intake a cone EITHER junc
         Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
@@ -414,7 +411,7 @@ public class AutonLeftOneCone extends LinearOpMode
 
 //            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
         int stackPos = 210; //starting stack height
-        for (int i = 0; i < 0; i++) { //just doing once to reduce chance of it going wrong
+        for (int i = 0; i < 1; i++) { //just doing once to reduce chance of it going wrong
             //executes 3 times for 3 cones for now
             //make this a spline?
             lift.setTargetPosition(stackPos);
@@ -456,7 +453,6 @@ public class AutonLeftOneCone extends LinearOpMode
         {
             //do nothing bc its already parked here
 
-            myLocalizer.followTrajectory(trPark2);
 //
         } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
         {

@@ -223,10 +223,13 @@ public class AprilTagAutonRight extends LinearOpMode
 
         //angle back to face cone stack LOW junc after scoring
         Pose2d pose456 = new Pose2d(37, -12, Math.toRadians(0));
+        //think y values all need to be less in magnitude
 
         Trajectory trL456Park2Low = myLocalizer.trajectoryBuilder(pose3)
                 .lineToSplineHeading(pose456)
                 .build();
+
+
 //        Trajectory trL456Park2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(43, -16, Math.toRadians(225)))
 //                .splineTo(new Vector2d(34, -12), Math.toRadians(180))
 //                .build();
