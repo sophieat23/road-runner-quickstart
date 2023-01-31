@@ -157,21 +157,23 @@ public class TSMainOpMode extends LinearOpMode {
                 //imu:
                 checkOrientation();
                 //imu correction
-                while( 4 > Math.abs(balance - initBalance)){ //four degrees of range
-                    if((balance - initBalance) >0){
-                        backLeft.setPower(.5);
-                        backRight.setPower(.5);
-                    } else {
-                        frontLeft.setPower(-.5);
-                        frontRight.setPower(-.5);
+                if(opModeIsActive() && 7 < Math.abs(balance - initBalance)){
+                    while( opModeIsActive() && 7 < Math.abs(balance - initBalance)){ //seven degrees of range
+                        if((balance - initBalance) >0){
+                            frontLeft.setPower(.5);
+                            frontRight.setPower(.5);
+                        } else {
+                            backLeft.setPower(-.5);
+                            backRight.setPower(-.5);
+                        }
+                        checkOrientation();
                     }
-                    checkOrientation();
+                    //reseting power to zero after imu correction
+                    backLeft.setPower(0);
+                    backRight.setPower(0);
+                    frontLeft.setPower(0);
+                    frontRight.setPower(0);
                 }
-                //reseting power to zero after imu correction
-                backLeft.setPower(0);
-                backRight.setPower(0);
-                frontLeft.setPower(0);
-                frontRight.setPower(0);
 
                 BLMotor = 0;
                 BRMotor = 0;
