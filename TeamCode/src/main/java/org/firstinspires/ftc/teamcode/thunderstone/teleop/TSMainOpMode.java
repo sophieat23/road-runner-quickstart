@@ -8,11 +8,42 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+//imu
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+
+
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 //do we need an import for the gamepad?
 
 @TeleOp(name = "6010 PowerPlay TeleOp", group = "6010 TeleOps")
 public class TSMainOpMode extends LinearOpMode {
+
+    //imu:
+    BNO055IMU imu;
+    float balance;
+    float initBalance;
+    Orientation angles;
+
+    private void checkOrientation(){
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        imu.getPosition();
+        balance = angles.thirdAngle;
+    }
+
+
+
     private double slow = .75; //when slow = 1 there is no slow
     private double slowR = .5; //slow for rotating
     private double y = 0;
@@ -104,11 +135,45 @@ public class TSMainOpMode extends LinearOpMode {
         // leftServo.setDirection().FORWARD;
         // rightServo.setDirection().REVERSE;
 
+        //imu
+        imu = hardwareMap.get(BNO055IMU.class, "gyro");
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
+
+        imu.initialize(parameters);
+        checkOrientation();
+        initBalance = balance;
+
         waitForStart();
 
         if (opModeIsActive()) {
             // Put run blocks here.
             while (opModeIsActive()) {
+
+                //imu:
+                checkOrientation();
+                //imu correction
+                if(opModeIsActive() && 7 < Math.abs(balance - initBalance)){
+                    while( opModeIsActive() && 7 < Math.abs(balance - initBalance)){ //seven degrees of range
+                        if((balance - initBalance) >0){
+                            frontLeft.setPower(.5);
+                            frontRight.setPower(.5);
+                        } else {
+                            backLeft.setPower(-.5);
+                            backRight.setPower(-.5);
+                        }
+                        checkOrientation();
+                    }
+                    //reseting power to zero after imu correction
+                    backLeft.setPower(0);
+                    backRight.setPower(0);
+                    frontLeft.setPower(0);
+                    frontRight.setPower(0);
+                }
 
                 BLMotor = 0;
                 BRMotor = 0;
