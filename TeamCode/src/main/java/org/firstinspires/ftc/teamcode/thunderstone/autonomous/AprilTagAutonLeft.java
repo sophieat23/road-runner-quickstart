@@ -184,16 +184,8 @@ public class AprilTagAutonLeft extends LinearOpMode
         Trajectory trL1 = myLocalizer.trajectoryBuilder(startPose)
                 .lineTo(new Vector2d(-35.5, -6.5))
                 .build();
-        //trajectiores that end in j(josh calling card)
-        //double sts = angles.firstAngle;
-        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(40, 40, Math.toRadians(90)))
-                .build();
-
-
 
         //LOW JUNCTION parts 2-6
-
         //move back near low junc to prepare to score & face cone stack
         Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
                 .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
@@ -206,7 +198,7 @@ public class AprilTagAutonLeft extends LinearOpMode
         Pose2d pose3 = new Pose2d(-46, -21, Math.toRadians(225)); //44.5
         //WITHIN LOOP:
         //turn and move to low junc while scoring
-        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-32, -12, Math.toRadians(180)))
+        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
                 .lineToSplineHeading(pose3)
                 .build();
 //        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
@@ -229,12 +221,12 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         //move forward to intake a cone EITHER junc
         Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-66, -12)) //66
+                .lineTo(new Vector2d(-62.5, -12)) //66
                 .build();
 
         //move backward from cone stack
-        Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-66, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-32, -12))
+        Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-62.5, -12, Math.toRadians(180)))
+                .lineTo(new Vector2d(-34, -12))
                 .build();
 
         //END LOOP
@@ -247,6 +239,12 @@ public class AprilTagAutonLeft extends LinearOpMode
         Trajectory trLPark3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(180)))
                 .build();
+
+
+        Trajectory imLazy = myLocalizer.trajectoryBuilder(new Pose2d(),Math.toRadians(90))
+                .lineToSplineHeading(new Pose2d(-35,-61))
+                .build();
+
 
 //
 //        //simple parking from start trajectories
@@ -445,9 +443,14 @@ public class AprilTagAutonLeft extends LinearOpMode
             } else {
                 //already accounted for
 
+                //myLocalizer.followTrajectory(imLazy);
+                //delete this, it soley exists so i dont have to move to pick up the robot durring testing
+
                 //auton fails, cant recognize qrcode, just move forward to middle zone
 //            myLocalizer.followTrajectory(moveToPark);
             }
+
+
     }
 
     void tagToTelemetry(AprilTagDetection detection)
