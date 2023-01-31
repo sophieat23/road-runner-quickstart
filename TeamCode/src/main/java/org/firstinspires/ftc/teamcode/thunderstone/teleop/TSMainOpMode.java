@@ -157,8 +157,9 @@ public class TSMainOpMode extends LinearOpMode {
                 //imu:
                 checkOrientation();
                 //imu correction
-                if(opModeIsActive() && 7 < Math.abs(balance - initBalance)){
-                    while( opModeIsActive() && 7 < Math.abs(balance - initBalance)){ //seven degrees of range
+                telemetry.addData("balance", balance);
+                if(opModeIsActive() && 9 < Math.abs(balance - initBalance)){
+                    while( opModeIsActive() && 9 < Math.abs(balance - initBalance)){ //nine degrees of range
                         if((balance - initBalance) >0){
                             frontLeft.setPower(.5);
                             frontRight.setPower(.5);
@@ -167,6 +168,7 @@ public class TSMainOpMode extends LinearOpMode {
                             backRight.setPower(-.5);
                         }
                         checkOrientation();
+                        telemetry.update();
                     }
                     //reseting power to zero after imu correction
                     backLeft.setPower(0);
