@@ -56,8 +56,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name = "6010 April Tag Left Autonomous")
-public class AprilTagAutonLeft extends LinearOpMode
+@Autonomous(name = "6010 April Tag Left Autonomous 5pointers")
+public class AprilTagAutonLeftHighJunction extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -188,17 +188,17 @@ public class AprilTagAutonLeft extends LinearOpMode
         //LOW JUNCTION parts 2-6
         //move back near low junc to prepare to score & face cone stack
         Trajectory trL2Low = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
-                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-11.6, -12, Math.toRadians(180)))
                 .build();
 
 //        Trajectory trL2Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-35.5, -6.5, Math.toRadians(90)))
 //                .splineTo(new Vector2d(-34,-12),Math.toRadians(180))
 //                .build();
 
-        Pose2d pose3 = new Pose2d(-46, -21, Math.toRadians(225)); //44.5
+        Pose2d pose3 = new Pose2d(-11.6, -9.5, Math.toRadians(45)); //44.5
         //WITHIN LOOP:
         //turn and move to low junc while scoring
-        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
+        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-11.6, -12, Math.toRadians(45)))
                 .lineToSplineHeading(pose3)
                 .build();
 //        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
@@ -217,8 +217,9 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         //move backward from cone stack
         Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-62.5, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-34, -12))
+                .lineTo(new Vector2d(-11.6, -12))
                 .build();
+
 
         Trajectory trPark2 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -12, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(-38, -12, Math.toRadians(180)))
@@ -286,31 +287,20 @@ public class AprilTagAutonLeft extends LinearOpMode
 //            telemetry.update();
 
 //            if (state == 1) {
-                if (currentDetections.size() != 0) {
-                    boolean tagFound = false;
+            if (currentDetections.size() != 0) {
+                boolean tagFound = false;
 
-                    for (AprilTagDetection tag : currentDetections) {
-                        if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
-                            tagOfInterest = tag;
-                            tagFound = true;
-                            break;
-                        }
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
                     }
+                }
 
-                    if (tagFound) {
-                        telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                        tagToTelemetry(tagOfInterest);
-                    } else {
-                        telemetry.addLine("Don't see tag of interest :(");
-
-                        if (tagOfInterest == null) {
-                            telemetry.addLine("(The tag has never been seen)");
-                        } else {
-                            telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                            tagToTelemetry(tagOfInterest);
-                        }
-                    }
-
+                if (tagFound) {
+                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
                 } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
@@ -320,8 +310,19 @@ public class AprilTagAutonLeft extends LinearOpMode
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
-
                 }
+
+            } else {
+                telemetry.addLine("Don't see tag of interest :(");
+
+                if (tagOfInterest == null) {
+                    telemetry.addLine("(The tag has never been seen)");
+                } else {
+                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+            }
 //            }
             telemetry.update();
             sleep(20);
@@ -349,7 +350,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 //        String side = "left";
 
 //        if (side.equals("left")) {
-            //general auton path with or without sighting zone
+        //general auton path with or without sighting zone
         lift.setTargetPosition(0); //starting w/ lift not extended now to prevent inaccuracies in pathing
         //assuming this doesn't interfere w/ signal cone
         //might have to lift it so it avoids cone
@@ -386,67 +387,66 @@ public class AprilTagAutonLeft extends LinearOpMode
 //        lift.setVelocity(900);
 
 //            myLocalizer.followTrajectory(trL456Park2Lowj); //facing cone stack, in the middle zone
-            int stackPos = 210; //starting stack height
-            for (int i = 0; i < 2; i++) { //just doing once to reduce chance of it going wrong
-                //executes 3 times for 3 cones for now
-                //make this a spline?
-                lift.setTargetPosition(stackPos);
-                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
-                //intake a cone
-                //lower lift - ADD CODE
-                lift.setTargetPosition(stackPos-60); //lowering to grab cone from stack
-                intakeUp(1);
-                sleep(700); //1 second?
-                intakeStop();
-                lift.setTargetPosition(stackPos+30); //lifting above stacks
-                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
-                //might lower the lift down completely here before raising it to low junc
-                sleep(500);
-                lift.setTargetPosition(300); //height for low junc
-                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
-                intakeDown(1);
-                sleep(1000);
-                intakeStop();
-                myLocalizer.followTrajectory(trL456); //angle back to face cone stack
-                lift.setTargetPosition(0);
-                lift.setVelocity(900);
-                stackPos -= 30; //decreases as each cone gets removed
-            }
+        int stackPos = 210; //starting stack height
+        for (int i = 0; i < 2; i++) { //just doing once to reduce chance of it going wrong
+            //executes 3 times for 3 cones for now
+            //make this a spline?
+            lift.setTargetPosition(stackPos);
+            lift.setVelocity(900);
+            myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
+            //intake a cone
+            //lower lift - ADD CODE
+            lift.setTargetPosition(stackPos-60); //lowering to grab cone from stack
+            intakeUp(1);
+            sleep(700); //1 second?
+            intakeStop();
+            lift.setTargetPosition(stackPos+30); //lifting above stacks
+            lift.setVelocity(900);
+            myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
+            //might lower the lift down completely here before raising it to low junc
+            sleep(500);
+            lift.setTargetPosition(300); //height for low junc
+            lift.setVelocity(900);
+            myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
+            intakeDown(1);
+            sleep(1000);
+            intakeStop();
+            myLocalizer.followTrajectory(trL456); //angle back to face cone stack
+            lift.setTargetPosition(0);
+            lift.setVelocity(900);
+            stackPos -= 30; //decreases as each cone gets removed
+        }
 
-            if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
-            {
+        if (tagOfInterest.id == LEFT) //tag = 1 detected, left side park
+        {
 //                lift.setTargetPosition(70); //above cones in case we bump into stuff
 //                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trLPark1Low);
+            myLocalizer.followTrajectory(trLPark1Low);
 //                lift.setTargetPosition(0); //lower lift
 //                lift.setVelocity(600);
 
-            } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
-            //if theres no tag detected or if its the middle one so tag = 2, middle park
-            {
-                myLocalizer.followTrajectory(trPark2);
-                //do nothing bc its already parked here
-
+        } else if (tagOfInterest.id == MIDDLE) //tagOfInterest == null doesn't work-- its always false
+        //if theres no tag detected or if its the middle one so tag = 2, middle park
+        {
+            myLocalizer.followTrajectory(trPark2);
+            //do nothing bc its already parked here
 //
-            } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
-            {
+        } else if (tagOfInterest.id == RIGHT) //tag = 3 detected, right side park
+        {
 //                lift.setTargetPosition(70); //above cones in case we bump into stuff
 //                lift.setVelocity(900);
-                myLocalizer.followTrajectory(trLPark3Low);
+            myLocalizer.followTrajectory(trLPark3Low);
 
 //
-            } else {
-                //already accounted for
+        } else {
+            //already accounted for
 
-                myLocalizer.followTrajectory(imLazy);
-                //delete this, it soley exists so i dont have to move to pick up the robot durring testing
+            myLocalizer.followTrajectory(imLazy);
+            //delete this, it soley exists so i dont have to move to pick up the robot durring testing
 
-                //auton fails, cant recognize qrcode, just move forward to middle zone
+            //auton fails, cant recognize qrcode, just move forward to middle zone
 //            myLocalizer.followTrajectory(moveToPark);
-            }
+        }
 
 
     }
