@@ -34,12 +34,15 @@ public class TSMainOpMode extends LinearOpMode {
     BNO055IMU imu;
     float balance;
     float initBalance;
+    float absBalance;
     Orientation angles;
 
     private void checkOrientation(){
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         imu.getPosition();
         balance = angles.thirdAngle;
+        absBalance = Math.abs(balance);
+
     }
 
 
@@ -160,8 +163,8 @@ public class TSMainOpMode extends LinearOpMode {
                 telemetry.addData("third", balance);
                 telemetry.addData("second", angles.secondAngle);
                 telemetry.addData("first", angles.firstAngle);
-                if( opModeIsActive() && (((7 < balance) && balance<90)||((7 < (180-balance)) && balance>90) ) ){
-                    while( opModeIsActive() && (((7 < balance) && balance<90)||((7 < (180-balance)) && balance>90) ) ){ //nine degrees of range
+                if( opModeIsActive() && (((7 < (absBalance)) && absBalance<90)||((7 < (180-absBalance)) && absBalance>90) ) ){
+                    while( opModeIsActive() && (((7 < absBalance) && absBalance<90)||((7 < (180-absBalance)) && absBalance>90) ) ){ //nine degrees of range
                         if(balance >0){
                             frontLeft.setPower(.7);
                             frontRight.setPower(.7);
