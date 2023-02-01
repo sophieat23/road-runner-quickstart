@@ -160,8 +160,8 @@ public class TSMainOpMode extends LinearOpMode {
                 telemetry.addData("third", balance);
                 telemetry.addData("second", angles.secondAngle);
                 telemetry.addData("first", angles.firstAngle);
-                if(opModeIsActive() && ((10 < balance)||(10 < (180-balance)) ) ){
-                    while( opModeIsActive() && ((10 < balance)||(10 < (180-balance)) ) ){ //nine degrees of range
+                if(opModeIsActive() && ((7 < balance)||(7 < (180-balance)) ) ){
+                    while( opModeIsActive() && ((7 < balance)||(7 < (180-balance)) ) ){ //nine degrees of range
                         if(balance >0){
                             frontLeft.setPower(.7);
                             frontRight.setPower(.7);
