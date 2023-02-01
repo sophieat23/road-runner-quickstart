@@ -206,7 +206,7 @@ public class AprilTagAutonLeft extends LinearOpMode
         Pose2d pose3 = new Pose2d(-46, -21, Math.toRadians(225)); //44.5
         //WITHIN LOOP:
         //turn and move to low junc while scoring
-        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
+        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-32, -12, Math.toRadians(180)))
                 .lineToSplineHeading(pose3)
                 .build();
 //        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
@@ -215,7 +215,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         //angle back to face cone stack LOW junc after scoring
         Trajectory trL456 = myLocalizer.trajectoryBuilder(pose3)
-                .lineToSplineHeading(new Pose2d(-35, -12, Math.toRadians(180))) //34
+                .lineToSplineHeading(new Pose2d(-34, -12, Math.toRadians(180))) //34
                 .build();
 
         Trajectory trPark2 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -12, Math.toRadians(180)))
@@ -228,7 +228,11 @@ public class AprilTagAutonLeft extends LinearOpMode
 
 
         //move forward to intake a cone EITHER junc
-        Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -12, Math.toRadians(180)))
+
+//        Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-35, -12, Math.toRadians(180)))
+
+        Trajectory trL7 = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
+
                 .lineTo(new Vector2d(-66, -12)) //66
                 .build();
 
@@ -266,6 +270,13 @@ public class AprilTagAutonLeft extends LinearOpMode
          */
         while (!isStarted() && !isStopRequested())
         {
+            //4imu
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX,AngleUnit.DEGREES);
+            telemetry.addData("heading", angles.firstAngle); //-perpendiculer to the floor, we use this
+            telemetry.addData("Roll", angles.secondAngle);
+            telemetry.addData("Pitch", angles.thirdAngle);
+            //
+
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
 //            int state = 0;
@@ -323,12 +334,6 @@ public class AprilTagAutonLeft extends LinearOpMode
 
                 }
 //            }
-            //4 imu
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX,AngleUnit.DEGREES);
-            telemetry.addData("heading", angles.firstAngle); //-perpendiculer to the floor, we use this
-            telemetry.addData("Roll", angles.secondAngle);
-            telemetry.addData("Pitch", angles.thirdAngle);
-            //
             telemetry.update();
             sleep(20);
         }
