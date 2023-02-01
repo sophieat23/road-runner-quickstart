@@ -157,15 +157,17 @@ public class TSMainOpMode extends LinearOpMode {
                 //imu:
                 checkOrientation();
                 //imu correction
-                telemetry.addData("balance", balance);
-                if(opModeIsActive() && 9 < Math.abs(balance - initBalance)){
-                    while( opModeIsActive() && 9 < Math.abs(balance - initBalance)){ //nine degrees of range
-                        if((balance - initBalance) >0){
-                            frontLeft.setPower(.5);
-                            frontRight.setPower(.5);
+                telemetry.addData("third", balance);
+                telemetry.addData("second", angles.secondAngle);
+                telemetry.addData("first", angles.firstAngle);
+                if(opModeIsActive() && ((10 < balance)||(10 < (180-balance)) ) ){
+                    while( opModeIsActive() && ((10 < balance)||(10 < (180-balance)) ) ){ //nine degrees of range
+                        if(balance >0){
+                            frontLeft.setPower(.7);
+                            frontRight.setPower(.7);
                         } else {
-                            backLeft.setPower(-.5);
-                            backRight.setPower(-.5);
+                            backLeft.setPower(-.7);
+                            backRight.setPower(-.7);
                         }
                         checkOrientation();
                         telemetry.update();
@@ -407,7 +409,7 @@ public class TSMainOpMode extends LinearOpMode {
 
                 } else if(gamepad1.a){ //lowest preset for picking up cones
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    currentH = 140;
+                    currentH = 100;
                     lift.setTargetPosition(currentH);
                     if (wasHigh) {
                         lift.setVelocity(800);
