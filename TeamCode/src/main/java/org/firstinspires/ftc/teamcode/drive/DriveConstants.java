@@ -62,7 +62,7 @@ public class DriveConstants {
      * Runner is designed to enable faster autonomous motion, it is a good idea for testing to start
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
-     */
+     *///
     public static double MAX_VEL = 45.48291908330528;
     public static double MAX_ACCEL = 45.48291908330528;
     public static double MAX_ANG_VEL = Math.toRadians(180);

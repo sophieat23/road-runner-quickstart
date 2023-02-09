@@ -392,7 +392,7 @@ public class AprilTagAutonLeftHighJunction extends LinearOpMode
             //executes 3 times for 3 cones for now
             //make this a spline?
             lift.setTargetPosition(stackPos);
-            lift.setVelocity(900);
+            lift.setVelocity(900);//0G WAS 900
             myLocalizer.followTrajectory(trL7); //go forward to cone stack to intake
             //intake a cone
             //lower lift - ADD CODE
