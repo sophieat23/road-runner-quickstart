@@ -371,7 +371,8 @@ public class AprilTagAutonLeftHighJunction extends LinearOpMode
         myLocalizer.followTrajectory(trL2Low); //move back into middle block next to low junc, facing cone stack
 
         int lowJunc = 305;
-        lift.setTargetPosition(lowJunc); //height for low junc
+        int highjunc = 800;
+        lift.setTargetPosition(highjunc); //height for low junc
         lift.setVelocity(900);
         myLocalizer.followTrajectory(trL3Low); //angles over the low junction to score the cone
         intakeDown(1);
@@ -405,7 +406,7 @@ public class AprilTagAutonLeftHighJunction extends LinearOpMode
             myLocalizer.followTrajectory(trL8Low); //go back to prepare to score
             //might lower the lift down completely here before raising it to low junc
             sleep(500);
-            lift.setTargetPosition(300); //height for low junc
+            lift.setTargetPosition(highjunc); //height for low junc
             lift.setVelocity(900);
             myLocalizer.followTrajectory(trL3Low); //turn to drop a cone on low junction
             intakeDown(1);

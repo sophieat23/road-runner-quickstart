@@ -123,12 +123,10 @@ public class SampleMecanumDrive extends MecanumDrive {
 
 
 
-        //Check lines 154-157 for checklist to make sure everything is OK
         leftFront = hardwareMap.get(DcMotorEx.class, "frontLeft");
         leftRear = hardwareMap.get(DcMotorEx.class, "backLeft");
         rightRear = hardwareMap.get(DcMotorEx.class, "backRight");
         rightFront = hardwareMap.get(DcMotorEx.class, "frontRight");
-
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
