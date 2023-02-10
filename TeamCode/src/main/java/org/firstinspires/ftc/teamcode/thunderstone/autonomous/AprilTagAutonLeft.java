@@ -186,12 +186,6 @@ public class AprilTagAutonLeft extends LinearOpMode
                 .build();
         //trajectiores that end in j(josh calling card)
         //double sts = angles.firstAngle;
-        Trajectory trL1j = myLocalizer.trajectoryBuilder(new Pose2d(-35,-61.5, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(40, 40, Math.toRadians(90)))
-                .build();
-
-
-
         //LOW JUNCTION parts 2-6
 
         //move back near low junc to prepare to score & face cone stack
@@ -206,12 +200,9 @@ public class AprilTagAutonLeft extends LinearOpMode
         Pose2d pose3 = new Pose2d(-46, -21, Math.toRadians(225)); //44.5
         //WITHIN LOOP:
         //turn and move to low junc while scoring
-        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-32, -12, Math.toRadians(180)))
+        Trajectory trL3Low = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
                 .lineToSplineHeading(pose3)
                 .build();
-//        Trajectory trL3Lowj = myLocalizer.trajectoryBuilder(new Pose2d(-34, -12, Math.toRadians(180)))
-//                .splineTo(new Vector2d(-43, -17), Math.toRadians(225))
-//                .build();
 
         //angle back to face cone stack LOW junc after scoring
         Trajectory trL456 = myLocalizer.trajectoryBuilder(pose3)
@@ -234,7 +225,7 @@ public class AprilTagAutonLeft extends LinearOpMode
 
         //move backward from cone stack
         Trajectory trL8Low = myLocalizer.trajectoryBuilder(new Pose2d(-66, -12, Math.toRadians(180)))
-                .lineTo(new Vector2d(-32, -12))
+                .lineTo(new Vector2d(-34, -12))
                 .build();
 
         //END LOOP
@@ -362,7 +353,7 @@ public class AprilTagAutonLeft extends LinearOpMode
         //might have to lift it so it avoids cone
 //            lift.setTargetPosition(80); //above the cone
 //            lift.setVelocity(900); //arbitrary val for now
-//            myLocalizer.followTrajectory(trL1j); //move forward to push cone
+
 
         telemetry.update();
         //this telemetry update will be usefull i think if we use imu for inital angle for trL1
