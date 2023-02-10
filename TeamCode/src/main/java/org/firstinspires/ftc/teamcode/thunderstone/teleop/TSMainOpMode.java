@@ -34,12 +34,15 @@ public class TSMainOpMode extends LinearOpMode {
     BNO055IMU imu;
     float balance;
     float initBalance;
+    float absBalance;
     Orientation angles;
 
     private void checkOrientation(){
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         imu.getPosition();
         balance = angles.thirdAngle;
+        absBalance = Math.abs(balance);
+
     }
 
 
@@ -157,16 +160,20 @@ public class TSMainOpMode extends LinearOpMode {
                 //imu:
                 checkOrientation();
                 //imu correction
-                if(opModeIsActive() && 7 < Math.abs(balance - initBalance)){
-                    while( opModeIsActive() && 7 < Math.abs(balance - initBalance)){ //seven degrees of range
-                        if((balance - initBalance) >0){
-                            frontLeft.setPower(.5);
-                            frontRight.setPower(.5);
+                telemetry.addData("third", balance);
+                telemetry.addData("second", angles.secondAngle);
+                telemetry.addData("first", angles.firstAngle);
+                if( opModeIsActive() && (((7 < (absBalance)) && absBalance<90)||((7 < (180-absBalance)) && absBalance>90) ) ){
+                    while( opModeIsActive() && (((7 < absBalance) && absBalance<90)||((7 < (180-absBalance)) && absBalance>90) ) ){ //nine degrees of range
+                        if(balance >0){
+                            frontLeft.setPower(.7);
+                            frontRight.setPower(.7);
                         } else {
-                            backLeft.setPower(-.5);
-                            backRight.setPower(-.5);
+                            backLeft.setPower(-.7);
+                            backRight.setPower(-.7);
                         }
                         checkOrientation();
+                        telemetry.update();
                     }
                     //reseting power to zero after imu correction
                     backLeft.setPower(0);
@@ -405,7 +412,7 @@ public class TSMainOpMode extends LinearOpMode {
 
                 } else if(gamepad1.a){ //lowest preset for picking up cones
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    currentH = 140;
+                    currentH = 100;
                     lift.setTargetPosition(currentH);
                     if (wasHigh) {
                         lift.setVelocity(800);
