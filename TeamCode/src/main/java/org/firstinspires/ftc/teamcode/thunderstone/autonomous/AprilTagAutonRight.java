@@ -234,7 +234,7 @@ public class AprilTagAutonRight extends LinearOpMode
 //                .splineTo(new Vector2d(34, -12), Math.toRadians(180))
 //                .build();
 
-        double x7 = 67;
+        double x7 = 66;
         double  y7 = -12;
 
         //move forward to intake a cone EITHER junc
@@ -242,7 +242,7 @@ public class AprilTagAutonRight extends LinearOpMode
                 .lineTo(new Vector2d(x7, y7))
                 .build();
 
-        double x8 = 32; //34
+        double x8 = 34; //34
         double y8 = -12;
 
         //move backward from cone stack
