@@ -8,11 +8,45 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+//imu
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+
+
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 //do we need an import for the gamepad?
 
 @TeleOp(name = "6010 PowerPlay TeleOp", group = "6010 TeleOps")
 public class TSMainOpMode extends LinearOpMode {
+
+    //imu:
+    BNO055IMU imu;
+    float balance;
+    float initBalance;
+    float absBalance;
+    Orientation angles;
+
+    private void checkOrientation(){
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        imu.getPosition();
+        balance = angles.thirdAngle;
+        absBalance = Math.abs(balance);
+
+    }
+
+
+
     private double slow = .75; //when slow = 1 there is no slow
     private double slowR = .5; //slow for rotating
     private double y = 0;
@@ -104,11 +138,49 @@ public class TSMainOpMode extends LinearOpMode {
         // leftServo.setDirection().FORWARD;
         // rightServo.setDirection().REVERSE;
 
+        //imu
+        imu = hardwareMap.get(BNO055IMU.class, "gyro");
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
+
+        imu.initialize(parameters);
+        checkOrientation();
+        initBalance = balance;
+
         waitForStart();
 
         if (opModeIsActive()) {
             // Put run blocks here.
             while (opModeIsActive()) {
+
+                //imu:
+                checkOrientation();
+                //imu correction
+                telemetry.addData("third", balance);
+                telemetry.addData("second", angles.secondAngle);
+                telemetry.addData("first", angles.firstAngle);
+                if( opModeIsActive() && (((7 < (absBalance)) && absBalance<90)||((7 < (180-absBalance)) && absBalance>90) ) ){
+                    while( opModeIsActive() && (((7 < absBalance) && absBalance<90)||((7 < (180-absBalance)) && absBalance>90) ) ){ //nine degrees of range
+                        if(balance >0){
+                            frontLeft.setPower(.7);
+                            frontRight.setPower(.7);
+                        } else {
+                            backLeft.setPower(-.7);
+                            backRight.setPower(-.7);
+                        }
+                        checkOrientation();
+                        telemetry.update();
+                    }
+                    //reseting power to zero after imu correction
+                    backLeft.setPower(0);
+                    backRight.setPower(0);
+                    frontLeft.setPower(0);
+                    frontRight.setPower(0);
+                }
 
                 BLMotor = 0;
                 BRMotor = 0;
@@ -340,7 +412,7 @@ public class TSMainOpMode extends LinearOpMode {
 
                 } else if(gamepad1.a){ //lowest preset for picking up cones
                     lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    currentH = 140;
+                    currentH = 100;
                     lift.setTargetPosition(currentH);
                     if (wasHigh) {
                         lift.setVelocity(800);
